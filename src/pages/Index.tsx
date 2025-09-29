@@ -1,12 +1,60 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useEffect } from "react";
+import { Header } from "@/components/Header";
+import { Hero } from "@/components/Hero";
+import { SignalBar } from "@/components/SignalBar";
+import { ValuePillars } from "@/components/ValuePillars";
+import { CaseStudies } from "@/components/CaseStudies";
+import { ToolchainStrip } from "@/components/ToolchainStrip";
+import { ProcessTimeline } from "@/components/ProcessTimeline";
+import { About } from "@/components/About";
+import { ContactForm } from "@/components/ContactForm";
+import { Footer } from "@/components/Footer";
 
 const Index = () => {
+  useEffect(() => {
+    // Add JSON-LD structured data for SEO
+    const script = document.createElement("script");
+    script.type = "application/ld+json";
+    script.text = JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Person",
+      name: "Indukumar Mallampali",
+      jobTitle: "Lead DevOps & Release Engineering",
+      url: "https://indumallampali.com",
+      sameAs: [
+        "https://www.linkedin.com/in/indu-mallampali",
+        "https://github.com/indu-mallampali",
+      ],
+      knowsAbout: [
+        "DevOps",
+        "Release Engineering",
+        "CI/CD",
+        "Azure DevOps",
+        "Jenkins",
+        "GitLab",
+      ],
+    });
+    document.head.appendChild(script);
+
+    return () => {
+      document.head.removeChild(script);
+    };
+  }, []);
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
+    <div className="min-h-screen">
+      <Header />
+      <main id="content">
+        <Hero />
+        <SignalBar />
+        <ValuePillars />
+        <CaseStudies />
+        <ToolchainStrip />
+        <ProcessTimeline />
+        <About />
+        <ContactForm />
+      </main>
+      <Footer />
     </div>
   );
 };
