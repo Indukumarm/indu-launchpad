@@ -26,18 +26,18 @@ export const Logo3DWatermark = () => {
     <div 
       className="fixed inset-0 pointer-events-none -z-10 hidden md:block"
       style={{
-        maskImage: 'radial-gradient(closest-side, rgba(0,0,0,0.3), transparent 75%)',
-        WebkitMaskImage: 'radial-gradient(closest-side, rgba(0,0,0,0.3), transparent 75%)',
+        maskImage: 'radial-gradient(closest-side, rgba(0,0,0,0.35), transparent 80%)',
+        WebkitMaskImage: 'radial-gradient(closest-side, rgba(0,0,0,0.35), transparent 80%)',
       }}
     >
       <model-viewer
         ref={modelRef}
         src="/assets/IM3D-LOGO.gltf"
         alt="Background logo watermark"
-        camera-orbit={`${scrollRotation}deg 75deg 5m`}
-        field-of-view="45deg"
+        camera-orbit={`${scrollRotation}deg 75deg 6m`}
+        field-of-view="40deg"
         interaction-prompt="none"
-        className="opacity-[0.22] dark:opacity-[0.24] blur-[0.5px]"
+        className="opacity-[0.23] dark:opacity-[0.25] blur-sm"
         style={{
           width: '100%',
           height: '100%',
