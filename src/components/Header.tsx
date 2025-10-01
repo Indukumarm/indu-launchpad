@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Moon, Sun, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/hooks/use-toast";
+import { Logo3D } from "@/components/Logo3D";
 
 const navItems = [
   { label: "About", href: "#about" },
@@ -97,8 +98,15 @@ export const Header = () => {
       >
         <div className="max-w-6xl mx-auto px-6 py-4">
           <nav className="flex items-center justify-between" aria-label="Main navigation">
-            <div className="text-lg font-semibold tracking-tight">
-              Indukumar Mallampali
+
+            {/* Logo and Name */}
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 flex-shrink-0">
+                <Logo3D isDark={isDark} />
+              </div>
+              <span className="text-lg font-semibold tracking-tight">
+                Indukumar Mallampali
+              </span>
             </div>
 
             {/* Desktop Nav */}

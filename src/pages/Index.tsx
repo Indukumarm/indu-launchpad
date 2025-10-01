@@ -1,5 +1,6 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Header } from "@/components/Header";
+import { Logo3DWatermark } from "@/components/Logo3DWatermark";
 import { Hero } from "@/components/Hero";
 import { SignalBar } from "@/components/SignalBar";
 import { ValuePillars } from "@/components/ValuePillars";
@@ -14,6 +15,27 @@ import { ContactForm } from "@/components/ContactForm";
 import { Footer } from "@/components/Footer";
 
 const Index = () => {
+  const [isDark, setIsDark] = useState(false);
+
+  useEffect(() => {
+    // Check theme
+    const stored = localStorage.getItem("theme");
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const shouldBeDark = stored === "dark" || (!stored && prefersDark);
+    setIsDark(shouldBeDark);
+
+    // Listen for theme changes
+    const observer = new MutationObserver(() => {
+      setIsDark(document.documentElement.classList.contains("dark"));
+    });
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class"],
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
   useEffect(() => {
     // Add JSON-LD structured data for SEO
     const script = document.createElement("script");
@@ -45,8 +67,10 @@ const Index = () => {
   }, []);
 
   return (
-    <div className="min-h-screen">
-      <Header />
+    <div className="min-h-screen relative">
+      <Logo3DWatermark isDark={isDark} />
+      <div className="relative z-10">
+        <Header />
       <main id="content">
         <Hero />
         <About />
@@ -60,7 +84,8 @@ const Index = () => {
         <EducationCertifications />
         <ContactForm />
       </main>
-      <Footer />
+        <Footer />
+      </div>
     </div>
   );
 };
