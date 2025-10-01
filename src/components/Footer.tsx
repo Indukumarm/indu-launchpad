@@ -19,7 +19,7 @@ export const Footer = () => {
 
           <nav className="flex items-center gap-6" aria-label="Footer navigation">
             <a
-              href="www.linkedin.com/in/indukumar-mallampali-89547117b"
+              href="https://linkedin.com/in/indukumar-mallampali-89547117b"
               target="_blank"
               rel="noopener noreferrer"
               className="text-sm text-muted-foreground hover:text-foreground transition-colors focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 rounded"
