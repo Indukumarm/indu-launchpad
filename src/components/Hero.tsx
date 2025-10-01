@@ -39,16 +39,16 @@ export const Hero = () => {
           </div>
         )}
 
-        <div className="space-y-6">
+        <div className="space-y-6 bg-white/60 dark:bg-transparent backdrop-blur-[2px] dark:backdrop-blur-0 rounded-xl px-6 py-8 dark:px-0 dark:py-0">
           <p className="text-sm uppercase tracking-widest text-accent font-medium">
             DevOps & Release Engineering Leader | 9+ Years in CI/CD, Cloud & Enterprise Modernization
           </p>
 
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-tight">
+          <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-tight text-neutral-900 dark:text-neutral-50 max-w-3xl mx-auto">
             I ship reliable releases—safely, repeatably, and fast.
           </h1>
 
-          <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+          <p className="text-xl md:text-2xl text-neutral-700 dark:text-neutral-200 max-w-2xl mx-auto leading-relaxed">
             Driving automation, governance, and team leadership across insurance and public sector enterprises.
           </p>
 

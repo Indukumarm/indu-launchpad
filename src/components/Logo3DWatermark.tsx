@@ -23,7 +23,13 @@ export const Logo3DWatermark = () => {
   }, []);
 
   return (
-    <div className="fixed inset-0 pointer-events-none z-0 hidden lg:block">
+    <div 
+      className="fixed inset-0 pointer-events-none -z-10 hidden md:block"
+      style={{
+        maskImage: 'radial-gradient(closest-side, rgba(0,0,0,0.12), transparent 70%)',
+        WebkitMaskImage: 'radial-gradient(closest-side, rgba(0,0,0,0.12), transparent 70%)',
+      }}
+    >
       <model-viewer
         ref={modelRef}
         src="/assets/IM3D-LOGO.gltf"
@@ -31,7 +37,7 @@ export const Logo3DWatermark = () => {
         camera-orbit={`${scrollRotation}deg 75deg 5m`}
         field-of-view="45deg"
         interaction-prompt="none"
-        className="opacity-[0.08] dark:opacity-[0.05]"
+        className="opacity-[0.04] dark:opacity-[0.13] blur-[1px]"
         style={{
           width: '100%',
           height: '100%',
