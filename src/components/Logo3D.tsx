@@ -27,11 +27,12 @@ export const Logo3D = ({ className = "" }: Logo3DProps) => {
       camera-orbit="0deg 75deg 2.5m"
       field-of-view="30deg"
       interaction-prompt="none"
-      className={`filter dark:invert dark:brightness-110 transition-[filter] duration-300 ${className}`}
+      className={className}
       style={{
         width: '100%',
         height: '100%',
         '--poster-color': 'transparent',
+        '--model-viewer-material-color': '#2E7D32',
       } as React.CSSProperties}
     />
   );

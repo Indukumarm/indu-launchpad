@@ -31,11 +31,12 @@ export const Logo3DWatermark = () => {
         camera-orbit={`${scrollRotation}deg 75deg 5m`}
         field-of-view="45deg"
         interaction-prompt="none"
-        className="filter dark:invert dark:brightness-110 transition-[filter] duration-300 opacity-[0.08] dark:opacity-[0.05]"
+        className="opacity-[0.08] dark:opacity-[0.05]"
         style={{
           width: '100%',
           height: '100%',
           '--poster-color': 'transparent',
+          '--model-viewer-material-color': '#2E7D32',
         } as React.CSSProperties}
       />
     </div>
