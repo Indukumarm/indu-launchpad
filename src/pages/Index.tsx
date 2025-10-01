@@ -3,6 +3,7 @@ import { Header } from "@/components/Header";
 import { Hero } from "@/components/Hero";
 import { SignalBar } from "@/components/SignalBar";
 import { ValuePillars } from "@/components/ValuePillars";
+import { KeyAchievements } from "@/components/KeyAchievements";
 import { CaseStudies } from "@/components/CaseStudies";
 import { ToolchainStrip } from "@/components/ToolchainStrip";
 import { ProcessTimeline } from "@/components/ProcessTimeline";
@@ -48,6 +49,7 @@ const Index = () => {
         <Hero />
         <SignalBar />
         <ValuePillars />
+        <KeyAchievements />
         <CaseStudies />
         <ToolchainStrip />
         <ProcessTimeline />

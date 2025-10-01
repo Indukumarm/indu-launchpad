@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Moon, Sun, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { toast } from "@/hooks/use-toast";
 
 const navItems = [
   { label: "Work", href: "#work" },
@@ -10,7 +11,7 @@ const navItems = [
   { label: "Contact", href: "#contact" },
 ];
 
-const RESUME_URL = "https://example.com/Indukumar-Mallampali-Resume.pdf";
+const RESUME_URL = "/Indukumar-Mallampali-Resume.pdf";
 
 export const Header = () => {
   const [isDark, setIsDark] = useState(false);
@@ -45,7 +46,16 @@ export const Header = () => {
     element?.scrollIntoView({ behavior: "smooth" });
   };
 
-  const handleResumeClick = () => {
+  const handleResumeClick = (e: React.MouseEvent) => {
+    if (!RESUME_URL || RESUME_URL.includes("example.com")) {
+      e.preventDefault();
+      toast({
+        title: "Resume link not set yet",
+        description: "The resume PDF is not available at this time.",
+        variant: "destructive",
+      });
+      return;
+    }
     (window as any).dataLayer?.push({ event: "resume_download" });
   };
 
@@ -89,11 +99,16 @@ export const Header = () => {
               <Button
                 variant="default"
                 size="sm"
-                asChild
                 className="hidden md:inline-flex bg-accent hover:bg-accent/90 text-accent-foreground"
                 onClick={handleResumeClick}
+                asChild={!!RESUME_URL && !RESUME_URL.includes("example.com")}
               >
-                <a href={RESUME_URL} download>
+                <a 
+                  href={RESUME_URL} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  aria-label="Download résumé PDF"
+                >
                   Download Résumé
                 </a>
               </Button>
@@ -140,11 +155,16 @@ export const Header = () => {
                 <Button
                   variant="default"
                   size="sm"
-                  asChild
                   className="w-full bg-accent hover:bg-accent/90 text-accent-foreground"
                   onClick={handleResumeClick}
+                  asChild={!!RESUME_URL && !RESUME_URL.includes("example.com")}
                 >
-                  <a href={RESUME_URL} download>
+                  <a 
+                    href={RESUME_URL} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    aria-label="Download résumé PDF"
+                  >
                     Download Résumé
                   </a>
                 </Button>

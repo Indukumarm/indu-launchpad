@@ -1,11 +1,21 @@
 import { Button } from "@/components/ui/button";
+import { toast } from "@/hooks/use-toast";
 import { ArrowRight, Download } from "lucide-react";
 
-const RESUME_URL = "https://example.com/Indukumar-Mallampali-Resume.pdf";
+const RESUME_URL = "/Indukumar-Mallampali-Resume.pdf";
 const LOGO_3D_URL = ""; // Optional: Add .glb model URL here
 
 export const Hero = () => {
-  const handleResumeClick = () => {
+  const handleResumeClick = (e: React.MouseEvent) => {
+    if (!RESUME_URL || RESUME_URL.includes("example.com")) {
+      e.preventDefault();
+      toast({
+        title: "Resume link not set yet",
+        description: "The resume PDF is not available at this time.",
+        variant: "destructive",
+      });
+      return;
+    }
     (window as any).dataLayer?.push({ event: "resume_download" });
   };
 
@@ -47,10 +57,16 @@ export const Hero = () => {
             <Button
               size="lg"
               className="bg-accent hover:bg-accent/90 text-accent-foreground hover:shadow-lg transition-all duration-200 hover:-translate-y-0.5"
-              asChild
               onClick={handleResumeClick}
+              asChild={!!RESUME_URL && !RESUME_URL.includes("example.com")}
             >
-              <a href={RESUME_URL} download className="flex items-center gap-2">
+              <a 
+                href={RESUME_URL} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                aria-label="Download résumé PDF"
+                className="flex items-center gap-2"
+              >
                 <Download className="h-5 w-5" />
                 Download Résumé
               </a>

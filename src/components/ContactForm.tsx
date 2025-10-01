@@ -24,7 +24,7 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { CalendarDays, Download, Mail } from "lucide-react";
 
-const RESUME_URL = "https://example.com/Indukumar-Mallampali-Resume.pdf";
+const RESUME_URL = "/Indukumar-Mallampali-Resume.pdf";
 const EMAIL = "mailto:hello@indumallampali.com";
 const CALENDLY_URL = "https://calendly.com/indu/intro";
 
@@ -114,7 +114,16 @@ export const ContactForm = () => {
     setIsSubmitting(false);
   };
 
-  const handleResumeClick = () => {
+  const handleResumeClick = (e: React.MouseEvent) => {
+    if (!RESUME_URL || RESUME_URL.includes("example.com")) {
+      e.preventDefault();
+      toast({
+        title: "Resume link not set yet",
+        description: "The resume PDF is not available at this time.",
+        variant: "destructive",
+      });
+      return;
+    }
     (window as any).dataLayer?.push({ event: "resume_download" });
   };
 
@@ -271,10 +280,15 @@ export const ContactForm = () => {
                 <Button
                   variant="outline"
                   className="w-full justify-start"
-                  asChild
                   onClick={handleResumeClick}
+                  asChild={!!RESUME_URL && !RESUME_URL.includes("example.com")}
                 >
-                  <a href={RESUME_URL} download>
+                  <a 
+                    href={RESUME_URL} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    aria-label="Download résumé PDF"
+                  >
                     <Download className="mr-2 h-4 w-4" />
                     Download Résumé
                   </a>
