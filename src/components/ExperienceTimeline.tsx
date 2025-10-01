@@ -3,13 +3,13 @@ import { Briefcase } from "lucide-react";
 const experiences = [
   {
     company: "AF Group",
-    role: "Lead DevOps/Release Engineer",
+    role: "Lead DevOps & Release Engineer",
     years: "2019–Present",
     highlights: [
-      "Guidewire (Tomcat) + EDW deployments, Docker/Kubernetes orchestration",
-      "CI/CD governance via Jenkins, Azure DevOps, GitHub Actions",
-      "Led CAB/eCAB readiness, release notes, audit evidence",
-      "Mentored juniors in DevOps & automation best practices"
+      "Led CI/CD strategy, cloud orchestration, and mentored engineers in DevOps best practices",
+      "Orchestrated Docker/Kubernetes deployments on Tomcat",
+      "Drove CAB/eCAB readiness, compliance & release notes",
+      "Transformed release governance by aligning automation with approval processes"
     ]
   },
   {

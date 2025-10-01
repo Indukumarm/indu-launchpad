@@ -41,7 +41,7 @@ export const Hero = () => {
 
         <div className="space-y-6">
           <p className="text-sm uppercase tracking-widest text-accent font-medium">
-            Lead DevOps & Release Engineer | 9+ Years in CI/CD, Insurance & Cloud Orchestration
+            DevOps & Release Engineering Leader | 9+ Years in CI/CD, Cloud & Enterprise Modernization
           </p>
 
           <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-tight">
@@ -49,7 +49,7 @@ export const Hero = () => {
           </h1>
 
           <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            Delivering zero-downtime releases, 1000+ pipelines optimized, and award-winning release governance.
+            Driving automation, governance, and team leadership across insurance and public sector enterprises.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-8">

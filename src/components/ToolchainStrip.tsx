@@ -35,11 +35,12 @@ const toolGroups = [
 
 export const ToolchainStrip = () => {
   return (
-    <section id="tooling" className="py-16 px-6 border-y border-border">
+    <section id="tooling" className="py-24 px-6 bg-muted/30">
       <div className="max-w-6xl mx-auto">
-        <h3 className="text-sm uppercase tracking-widest text-muted-foreground text-center mb-8">
-          Toolchain & Proficiency
-        </h3>
+        <h2 className="text-4xl font-bold text-center mb-8">Toolchain & Proficiency</h2>
+        <p className="text-xl text-center text-muted-foreground mb-16 max-w-3xl mx-auto">
+          I bring a full-stack DevOps toolkit, enabling both <strong>technical delivery</strong> and <strong>strategic leadership</strong>.
+        </p>
         <div className="space-y-8">
           {toolGroups.map((group, groupIndex) => (
             <div key={groupIndex}>

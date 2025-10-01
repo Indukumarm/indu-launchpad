@@ -2,6 +2,18 @@ import { CheckCircle2 } from "lucide-react";
 
 const achievements = [
   {
+    title: "Scaled DevOps Culture",
+    description: "Mentored 10+ engineers, introduced Agile/DevOps practices org-wide."
+  },
+  {
+    title: "Enterprise Transformation",
+    description: "Led migration from SVN → Git and on-prem → cloud-native CI/CD."
+  },
+  {
+    title: "Modernized Release Governance",
+    description: "Aligned CAB/eCAB with DevOps automation for faster approvals."
+  },
+  {
     title: "1000+ Pipelines Optimized",
     description: "Reduced errors by 30% through CI/CD standardization."
   },
@@ -31,7 +43,7 @@ export const KeyAchievements = () => {
   return (
     <section className="py-24 px-6">
       <div className="max-w-6xl mx-auto">
-        <h2 className="text-4xl font-bold text-center mb-16">Key Achievements</h2>
+        <h2 className="text-4xl font-bold text-center mb-16">Leadership & Key Achievements</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {achievements.map((achievement, index) => (
             <div

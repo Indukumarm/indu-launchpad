@@ -10,6 +10,10 @@ export const About = () => {
           and SNAP/FNS. Recognized for excellence in cloud, automation, and governance, I bridge 
           people, process, and technology to deliver business-critical outcomes.
         </p>
+        <p className="text-xl leading-relaxed text-muted-foreground mt-6">
+          Beyond technical expertise, I lead cross-functional teams, streamline governance, and mentor 
+          engineers to deliver resilient, enterprise-grade DevOps practices.
+        </p>
       </div>
     </section>
   );
