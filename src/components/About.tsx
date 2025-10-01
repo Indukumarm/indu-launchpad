@@ -4,15 +4,14 @@ export const About = () => {
       <div className="max-w-4xl mx-auto text-center">
         <h2 className="text-4xl font-bold mb-8">About</h2>
         <p className="text-xl leading-relaxed text-muted-foreground">
-          I'm Indukumar Mallampali, a DevOps & Release Engineering leader with 9+ years of experience 
-          driving enterprise reliability and scale. I specialize in Insurance (Workers' Compensation, 
-          Guidewire apps) and have also supported Public Sector domains like Medicaid, Child Care, 
-          and SNAP/FNS. Recognized for excellence in cloud, automation, and governance, I bridge 
-          people, process, and technology to deliver business-critical outcomes.
+          I'm Indukumar Mallampali, a DevOps & Release Engineering leader with 9+ years of experience. 
+          My career has been shaped around <strong>Insurance (Workers' Compensation, Guidewire apps)</strong> where 
+          I've driven major <strong>Go-Lives and enterprise release programs</strong> that demanded both precision 
+          and leadership.
         </p>
         <p className="text-xl leading-relaxed text-muted-foreground mt-6">
-          Beyond technical expertise, I lead cross-functional teams, streamline governance, and mentor 
-          engineers to deliver resilient, enterprise-grade DevOps practices.
+          My expertise goes beyond tools — I bring <strong>leadership, governance, and mentorship</strong> to 
+          cross-functional teams, aligning DevOps practices with business strategy to deliver outcomes that scale.
         </p>
       </div>
     </section>
