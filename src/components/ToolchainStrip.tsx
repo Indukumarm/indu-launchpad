@@ -12,6 +12,10 @@ const toolGroups = [
     tools: ["SonarQube", "CI gates", "Audit logs", "Compliance frameworks"]
   },
   {
+    category: "Release & Governance",
+    tools: ["Release Management", "Change Management", "DevOps Leadership"]
+  },
+  {
     category: "Monitoring & Analytics",
     tools: ["Grafana", "Splunk"]
   },
