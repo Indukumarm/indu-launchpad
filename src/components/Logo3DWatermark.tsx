@@ -42,7 +42,7 @@ export const Logo3DWatermark = () => {
           width: '100%',
           height: '100%',
           '--poster-color': 'transparent',
-          filter: 'sepia(1) saturate(3) hue-rotate(180deg) brightness(1.2)',
+          filter: 'sepia(0.9) saturate(2.5) hue-rotate(70deg) brightness(0.95)',
         } as React.CSSProperties}
       />
     </div>
