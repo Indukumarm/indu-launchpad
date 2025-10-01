@@ -19,7 +19,7 @@ export const Footer = () => {
 
           <nav className="flex items-center gap-6" aria-label="Footer navigation">
             <a
-              href={LINKEDIN_URL}
+              href="www.linkedin.com/in/indukumar-mallampali-89547117b"
               target="_blank"
               rel="noopener noreferrer"
               className="text-sm text-muted-foreground hover:text-foreground transition-colors focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 rounded"
@@ -27,7 +27,7 @@ export const Footer = () => {
               LinkedIn
             </a>
             <a
-              href={GITHUB_URL}
+              href="https://github.com/Indukumarm"
               target="_blank"
               rel="noopener noreferrer"
               className="text-sm text-muted-foreground hover:text-foreground transition-colors focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 rounded"
