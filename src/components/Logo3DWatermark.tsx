@@ -37,12 +37,12 @@ export const Logo3DWatermark = () => {
         camera-orbit={`${scrollRotation}deg 75deg 5m`}
         field-of-view="45deg"
         interaction-prompt="none"
-        className="opacity-[0.04] dark:opacity-[0.13] blur-[1px]"
+        className="opacity-[0.06] dark:opacity-[0.08]"
         style={{
           width: '100%',
           height: '100%',
           '--poster-color': 'transparent',
-          filter: 'sepia(0.8) saturate(2) hue-rotate(60deg) brightness(0.9)',
+          filter: 'sepia(1) saturate(3) hue-rotate(180deg) brightness(1.2)',
         } as React.CSSProperties}
       />
     </div>
