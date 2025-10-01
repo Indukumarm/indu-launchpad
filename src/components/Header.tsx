@@ -11,7 +11,7 @@ const navItems = [
   { label: "Contact", href: "#contact" },
 ];
 
-const RESUME_URL = "/Indukumar-Mallampali-Resume.pdf";
+const RESUME_URL = "/Indukumar Mallampali_Resume.pdf";
 
 export const Header = () => {
   const [isDark, setIsDark] = useState(false);
