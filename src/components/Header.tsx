@@ -102,7 +102,7 @@ export const Header = () => {
             {/* Logo and Name */}
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 flex-shrink-0">
-                <Logo3D isDark={isDark} />
+                <Logo3D />
               </div>
               <span className="text-lg font-semibold tracking-tight">
                 Indukumar Mallampali

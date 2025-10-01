@@ -1,11 +1,10 @@
 import { useEffect, useRef } from "react";
 
 interface Logo3DProps {
-  isDark: boolean;
   className?: string;
 }
 
-export const Logo3D = ({ isDark, className = "" }: Logo3DProps) => {
+export const Logo3D = ({ className = "" }: Logo3DProps) => {
   const modelRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -14,7 +13,7 @@ export const Logo3D = ({ isDark, className = "" }: Logo3DProps) => {
       const modelViewer = modelRef.current as any;
       modelViewer.style.setProperty('--poster-color', 'transparent');
     }
-  }, [isDark]);
+  }, []);
 
   return (
     <model-viewer
@@ -28,11 +27,10 @@ export const Logo3D = ({ isDark, className = "" }: Logo3DProps) => {
       camera-orbit="0deg 75deg 2.5m"
       field-of-view="30deg"
       interaction-prompt="none"
-      className={className}
+      className={`filter dark:invert dark:brightness-110 transition-[filter] duration-300 ${className}`}
       style={{
         width: '100%',
         height: '100%',
-        filter: isDark ? 'none' : 'invert(1)',
         '--poster-color': 'transparent',
       } as React.CSSProperties}
     />

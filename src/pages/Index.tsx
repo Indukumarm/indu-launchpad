@@ -68,7 +68,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen relative">
-      <Logo3DWatermark isDark={isDark} />
+      <Logo3DWatermark />
       <div className="relative z-10">
         <Header />
       <main id="content">

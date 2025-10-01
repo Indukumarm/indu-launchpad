@@ -1,10 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
-interface Logo3DWatermarkProps {
-  isDark: boolean;
-}
-
-export const Logo3DWatermark = ({ isDark }: Logo3DWatermarkProps) => {
+export const Logo3DWatermark = () => {
   const [scrollRotation, setScrollRotation] = useState(0);
   const modelRef = useRef<HTMLElement>(null);
 
@@ -24,7 +20,7 @@ export const Logo3DWatermark = ({ isDark }: Logo3DWatermarkProps) => {
       const modelViewer = modelRef.current as any;
       modelViewer.style.setProperty('--poster-color', 'transparent');
     }
-  }, [isDark]);
+  }, []);
 
   return (
     <div className="fixed inset-0 pointer-events-none z-0 hidden lg:block">
@@ -35,11 +31,10 @@ export const Logo3DWatermark = ({ isDark }: Logo3DWatermarkProps) => {
         camera-orbit={`${scrollRotation}deg 75deg 5m`}
         field-of-view="45deg"
         interaction-prompt="none"
+        className="filter dark:invert dark:brightness-110 transition-[filter] duration-300 opacity-[0.08] dark:opacity-[0.05]"
         style={{
           width: '100%',
           height: '100%',
-          opacity: isDark ? 0.05 : 0.08,
-          filter: isDark ? 'none' : 'invert(1)',
           '--poster-color': 'transparent',
         } as React.CSSProperties}
       />
