@@ -24,10 +24,10 @@ export const Logo3D = ({ className = "" }: Logo3DProps) => {
       auto-rotate
       auto-rotate-delay="0"
       rotation-per-second="30deg"
-      camera-orbit="0deg 75deg 2.5m"
-      field-of-view="30deg"
+      camera-orbit="0deg 75deg 3.5m"
+      field-of-view="35deg"
       interaction-prompt="none"
-      className={`transition-[filter] duration-300 dark:invert dark:brightness-110 ${className}`}
+      className={`filter transition-[filter] duration-300 dark:invert dark:brightness-[1.2] dark:contrast-[1.1] ${className}`}
       style={{
         width: '100%',
         height: '100%',
