@@ -5,23 +5,31 @@ const toolGroups = [
   },
   {
     category: "Cloud & Orchestration",
-    tools: ["Azure", "AWS", "Docker", "Kubernetes"]
+    tools: ["Azure", "AWS toolset", "Docker", "Kubernetes"]
   },
   {
     category: "Quality & Governance",
-    tools: ["SonarQube", "CI checks", "Audit trails"]
+    tools: ["SonarQube", "CI gates", "Audit logs", "Compliance frameworks"]
   },
   {
-    category: "Platforms & OS",
-    tools: ["Linux", "Windows"]
+    category: "Monitoring & Analytics",
+    tools: ["Grafana", "Splunk"]
   },
   {
     category: "Languages & Stacks",
-    tools: ["Python", ".NET"]
+    tools: ["Python", ".NET", "Groovy", "SQL", "SSIS/SSRS"]
   },
   {
-    category: "Apps & Domain",
-    tools: ["Guidewire (Tomcat)", "Insurance (Workers' Comp)", "Medicaid/Child Care/SNAP/FNS"]
+    category: "Infrastructure",
+    tools: ["Ansible", "IaC (Infrastructure as Code)", "Linux", "Windows"]
+  },
+  {
+    category: "ITSM & Collaboration",
+    tools: ["Jira", "Confluence", "Cherwell", "ServiceNow"]
+  },
+  {
+    category: "Domain Apps",
+    tools: ["Guidewire (Tomcat)", "Insurance (Workers' Comp)", "Medicaid", "Child Care", "SNAP/FNS"]
   }
 ];
 

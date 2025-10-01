@@ -4,10 +4,10 @@ export const About = () => {
       <div className="max-w-4xl mx-auto text-center">
         <h2 className="text-4xl font-bold mb-8">About</h2>
         <p className="text-xl leading-relaxed text-muted-foreground">
-          I'm a Lead DevOps/Release Engineer who turns messy delivery into
-          repeatable flow. I partner with engineering, QA, and leadership to
-          balance speed with compliance—and I write things down so teams can
-          sleep.
+          Lead DevOps & Release Engineer with 9+ years of experience optimizing 1,000+ CI/CD pipelines, 
+          driving zero-downtime deployments, and modernizing enterprise release governance. Recognized 
+          for excellence in cloud, AI adoption, and large-scale delivery across Insurance (Workers' 
+          Compensation, Guidewire) and Public Sector domains.
         </p>
       </div>
     </section>

@@ -4,10 +4,12 @@ import { Hero } from "@/components/Hero";
 import { SignalBar } from "@/components/SignalBar";
 import { ValuePillars } from "@/components/ValuePillars";
 import { KeyAchievements } from "@/components/KeyAchievements";
+import { ExperienceTimeline } from "@/components/ExperienceTimeline";
 import { CaseStudies } from "@/components/CaseStudies";
 import { ToolchainStrip } from "@/components/ToolchainStrip";
 import { ProcessTimeline } from "@/components/ProcessTimeline";
 import { About } from "@/components/About";
+import { EducationCertifications } from "@/components/EducationCertifications";
 import { ContactForm } from "@/components/ContactForm";
 import { Footer } from "@/components/Footer";
 
@@ -47,13 +49,15 @@ const Index = () => {
       <Header />
       <main id="content">
         <Hero />
+        <About />
         <SignalBar />
         <ValuePillars />
         <KeyAchievements />
+        <ExperienceTimeline />
         <CaseStudies />
         <ToolchainStrip />
         <ProcessTimeline />
-        <About />
+        <EducationCertifications />
         <ContactForm />
       </main>
       <Footer />

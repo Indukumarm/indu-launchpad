@@ -2,28 +2,28 @@ import { CheckCircle2 } from "lucide-react";
 
 const achievements = [
   {
-    title: "Stabilized post-incident releases (prod-only).",
-    description: "Re-established hotfix flow from last-known-good, manual validation gates, rollback playbook; restored predictable cadence."
+    title: "1000+ CI/CD Pipelines Optimized",
+    description: "Reduced errors by 30%, standardized build/release automation."
   },
   {
-    title: "Database release automation with Redgate.",
-    description: "Built traceable DB promotion on TFS/Azure DevOps with approvals, artifact provenance, and audit-ready logs."
+    title: "Zero-Downtime Deployments",
+    description: "Delivered 3 major Go-Lives with zero post-production issues."
   },
   {
-    title: "Org-wide Git SSL fix.",
-    description: "Led incident to resolve SSL verification failures; documented remediation and prevention runbook."
+    title: "Stabilized Post-Security-Incident Releases",
+    description: "Rebuilt hotfix process, restored reliable production cadence."
   },
   {
-    title: "Guidewire CI/CD on Tomcat.",
-    description: "Standardized build/package/deploy steps; integrated checks and environment-safe configs for repeatable releases."
+    title: "Database Release Automation with Redgate",
+    description: "Added traceability, approvals, and audit-ready logging."
   },
   {
-    title: "Migration & governance uplift.",
-    description: "Moved teams toward modern Git/Azure DevOps practices; improved review gates and compliance evidence."
+    title: "Recognition & Awards",
+    description: "3× Key Contributor Award, STAR Award 2021."
   },
   {
-    title: "Performance & quality guardrails.",
-    description: "Introduced CI quality gates (SonarQube), branch protections, and lightweight release notes templates."
+    title: "Org-wide Git & SSL Modernization",
+    description: "Led migration efforts, documented remediation playbooks."
   }
 ];
 
