@@ -2,28 +2,28 @@ import { CheckCircle2 } from "lucide-react";
 
 const achievements = [
   {
-    title: "1000+ CI/CD Pipelines Optimized",
-    description: "Reduced errors by 30%, standardized build/release automation."
+    title: "1000+ Pipelines Optimized",
+    description: "Reduced errors by 30% through CI/CD standardization."
   },
   {
     title: "Zero-Downtime Deployments",
-    description: "Delivered 3 major Go-Lives with zero post-production issues."
+    description: "Delivered 3 major Go-Lives with no post-production issues."
   },
   {
-    title: "Stabilized Post-Security-Incident Releases",
-    description: "Rebuilt hotfix process, restored reliable production cadence."
+    title: "Resilient Release Flow",
+    description: "Stabilized post-incident releases with hotfix strategy and rollback plan."
   },
   {
-    title: "Database Release Automation with Redgate",
-    description: "Added traceability, approvals, and audit-ready logging."
+    title: "Database Release Automation",
+    description: "Redgate integration with approvals & audit logging."
   },
   {
     title: "Recognition & Awards",
     description: "3× Key Contributor Award, STAR Award 2021."
   },
   {
-    title: "Org-wide Git & SSL Modernization",
-    description: "Led migration efforts, documented remediation playbooks."
+    title: "Enterprise Modernization",
+    description: "Led Git migration and SSL remediation across org."
   }
 ];
 

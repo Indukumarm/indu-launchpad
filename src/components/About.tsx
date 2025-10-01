@@ -4,10 +4,11 @@ export const About = () => {
       <div className="max-w-4xl mx-auto text-center">
         <h2 className="text-4xl font-bold mb-8">About</h2>
         <p className="text-xl leading-relaxed text-muted-foreground">
-          Lead DevOps & Release Engineer with 9+ years of experience optimizing 1,000+ CI/CD pipelines, 
-          driving zero-downtime deployments, and modernizing enterprise release governance. Recognized 
-          for excellence in cloud, AI adoption, and large-scale delivery across Insurance (Workers' 
-          Compensation, Guidewire) and Public Sector domains.
+          I'm Indukumar Mallampali, a DevOps & Release Engineering leader with 9+ years of experience 
+          driving enterprise reliability and scale. I specialize in Insurance (Workers' Compensation, 
+          Guidewire apps) and have also supported Public Sector domains like Medicaid, Child Care, 
+          and SNAP/FNS. Recognized for excellence in cloud, automation, and governance, I bridge 
+          people, process, and technology to deliver business-critical outcomes.
         </p>
       </div>
     </section>

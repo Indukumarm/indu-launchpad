@@ -4,10 +4,10 @@ import { Button } from "@/components/ui/button";
 import { toast } from "@/hooks/use-toast";
 
 const navItems = [
+  { label: "About", href: "#about" },
+  { label: "Experience", href: "#experience" },
   { label: "Work", href: "#work" },
   { label: "Tooling", href: "#tooling" },
-  { label: "Process", href: "#process" },
-  { label: "About", href: "#about" },
   { label: "Contact", href: "#contact" },
 ];
 
@@ -17,6 +17,7 @@ export const Header = () => {
   const [isDark, setIsDark] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState("");
 
   useEffect(() => {
     const stored = localStorage.getItem("theme");
@@ -28,7 +29,26 @@ export const Header = () => {
   }, []);
 
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 20);
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+      
+      // Update active section based on scroll position
+      const sections = navItems.map(item => item.href.substring(1));
+      const scrollPosition = window.scrollY + 100;
+      
+      for (const section of sections) {
+        const element = document.getElementById(section);
+        if (element) {
+          const { offsetTop, offsetHeight } = element;
+          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
+            setActiveSection(section);
+            break;
+          }
+        }
+      }
+    };
+    
+    handleScroll();
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -87,7 +107,11 @@ export const Header = () => {
                 <li key={item.href}>
                   <button
                     onClick={() => handleNavClick(item.href)}
-                    className="text-sm text-muted-foreground hover:text-foreground transition-colors focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 rounded"
+                    className={`text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 rounded ${
+                      activeSection === item.href.substring(1)
+                        ? "text-accent font-medium"
+                        : "text-muted-foreground hover:text-foreground"
+                    }`}
                   >
                     {item.label}
                   </button>
@@ -145,7 +169,11 @@ export const Header = () => {
                 <li key={item.href}>
                   <button
                     onClick={() => handleNavClick(item.href)}
-                    className="block w-full text-left text-sm py-2 text-muted-foreground hover:text-foreground transition-colors focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 rounded"
+                    className={`block w-full text-left text-sm py-2 transition-colors focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 rounded ${
+                      activeSection === item.href.substring(1)
+                        ? "text-accent font-medium"
+                        : "text-muted-foreground hover:text-foreground"
+                    }`}
                   >
                     {item.label}
                   </button>
