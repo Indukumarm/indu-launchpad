@@ -24,7 +24,7 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { CalendarDays, Download, Mail } from "lucide-react";
 
-const RESUME_URL = "/Indukumar-Mallampali-Resume.pdf";
+const RESUME_URL = "/Indukumar Mallampali_Resume.pdf";
 const EMAIL = "mailto:hello@indumallampali.com";
 const CALENDLY_URL = "https://calendly.com/indu/intro";
 
