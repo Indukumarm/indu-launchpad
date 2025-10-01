@@ -27,7 +27,7 @@ export const Logo3D = ({ className = "" }: Logo3DProps) => {
       camera-orbit="0deg 75deg 3.5m"
       field-of-view="35deg"
       interaction-prompt="none"
-      className={`filter transition-[filter] duration-300 dark:invert dark:brightness-[1.2] dark:contrast-[1.1] ${className}`}
+      className={`filter transition-[filter] duration-300 brightness-0 dark:brightness-200 dark:invert ${className}`}
       style={{
         width: '100%',
         height: '100%',

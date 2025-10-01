@@ -1,8 +1,30 @@
 import { useEffect, useRef, useState } from "react";
 
+const useTheme = () => {
+  const [isDark, setIsDark] = useState(() => 
+    document.documentElement.classList.contains('dark')
+  );
+
+  useEffect(() => {
+    const observer = new MutationObserver(() => {
+      setIsDark(document.documentElement.classList.contains('dark'));
+    });
+
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class']
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
+  return isDark;
+};
+
 export const Logo3DWatermark = () => {
   const [scrollRotation, setScrollRotation] = useState(0);
   const modelRef = useRef<HTMLElement>(null);
+  const isDark = useTheme();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -37,12 +59,14 @@ export const Logo3DWatermark = () => {
         camera-orbit={`${scrollRotation}deg 75deg 6m`}
         field-of-view="40deg"
         interaction-prompt="none"
-        className="opacity-[0.23] dark:opacity-[0.25] blur-sm"
+        className={isDark ? "opacity-[0.20] blur-sm" : "opacity-[0.08] blur-sm"}
         style={{
           width: '100%',
           height: '100%',
           '--poster-color': 'transparent',
-          filter: 'sepia(0.9) saturate(2.5) hue-rotate(70deg) brightness(0.95)',
+          filter: isDark 
+            ? 'sepia(0.8) saturate(2.8) hue-rotate(140deg) brightness(1.1)' // Teal for dark mode
+            : 'sepia(0.3) saturate(1.5) hue-rotate(180deg) brightness(1.3)', // Light blue for light mode
         } as React.CSSProperties}
       />
     </div>
