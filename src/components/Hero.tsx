@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { toast } from "@/hooks/use-toast";
 import { ArrowRight, Download } from "lucide-react";
 
-const RESUME_URL = "/Indukumar-Mallampali-Resume.pdf";
+const RESUME_URL = "/Indukumar Mallampali_Resume.pdf";
 const LOGO_3D_URL = ""; // Optional: Add .glb model URL here
 
 export const Hero = () => {
