@@ -23,6 +23,7 @@ export const Footer = () => {
               target="_blank"
               rel="noopener noreferrer"
               className="text-sm text-muted-foreground hover:text-foreground transition-colors focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 rounded"
+              aria-label="Open LinkedIn profile"
             >
               LinkedIn
             </a>
@@ -31,6 +32,7 @@ export const Footer = () => {
               target="_blank"
               rel="noopener noreferrer"
               className="text-sm text-muted-foreground hover:text-foreground transition-colors focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 rounded"
+              aria-label="Open GitHub profile"
             >
               GitHub
             </a>
