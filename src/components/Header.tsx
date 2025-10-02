@@ -1,24 +1,30 @@
 import { useState, useEffect } from "react";
 import { Moon, Sun, Menu, X } from "lucide-react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/hooks/use-toast";
 import { Logo3D } from "@/components/Logo3D";
 
 const navItems = [
-  { label: "About", href: "#about" },
-  { label: "Experience", href: "#experience" },
-  { label: "Work", href: "#work" },
-  { label: "Tooling", href: "#tooling" },
-  { label: "Contact", href: "#contact" },
+  { label: "About", href: "#about", isHash: true },
+  { label: "Experience", href: "#experience", isHash: true },
+  { label: "Work", href: "#work", isHash: true },
+  { label: "Tooling", href: "#tooling", isHash: true },
+  { label: "Learn", href: "/learn", isHash: false },
+  { label: "Contact", href: "#contact", isHash: true },
 ];
 
 const RESUME_URL = "/Indukumar Mallampali_Resume.pdf";
 
 export const Header = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
   const [isDark, setIsDark] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("");
+  
+  const isLearnPage = location.pathname === "/learn";
 
   useEffect(() => {
     const stored = localStorage.getItem("theme");
@@ -61,10 +67,22 @@ export const Header = () => {
     document.documentElement.classList.toggle("dark", newIsDark);
   };
 
-  const handleNavClick = (href: string) => {
+  const handleNavClick = (href: string, isHash: boolean) => {
     setIsMobileMenuOpen(false);
-    const element = document.querySelector(href);
-    element?.scrollIntoView({ behavior: "smooth" });
+    if (isHash) {
+      if (location.pathname !== "/") {
+        navigate("/");
+        setTimeout(() => {
+          const element = document.querySelector(href);
+          element?.scrollIntoView({ behavior: "smooth" });
+        }, 100);
+      } else {
+        const element = document.querySelector(href);
+        element?.scrollIntoView({ behavior: "smooth" });
+      }
+    } else {
+      navigate(href);
+    }
   };
 
   const handleResumeClick = (e: React.MouseEvent) => {
@@ -111,20 +129,26 @@ export const Header = () => {
 
             {/* Desktop Nav */}
             <ul className="hidden md:flex items-center gap-8">
-              {navItems.map((item) => (
-                <li key={item.href}>
-                  <button
-                    onClick={() => handleNavClick(item.href)}
-                    className={`text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 rounded ${
-                      activeSection === item.href.substring(1)
-                        ? "text-accent font-medium"
-                        : "text-muted-foreground hover:text-foreground"
-                    }`}
-                  >
-                    {item.label}
-                  </button>
-                </li>
-              ))}
+              {navItems.map((item) => {
+                const isActive = item.isHash
+                  ? activeSection === item.href.substring(1) && !isLearnPage
+                  : location.pathname === item.href;
+                
+                return (
+                  <li key={item.href}>
+                    <button
+                      onClick={() => handleNavClick(item.href, item.isHash)}
+                      className={`text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 rounded ${
+                        isActive
+                          ? "text-accent font-medium"
+                          : "text-muted-foreground hover:text-foreground"
+                      }`}
+                    >
+                      {item.label}
+                    </button>
+                  </li>
+                );
+              })}
             </ul>
 
             <div className="flex items-center gap-3">
@@ -173,20 +197,26 @@ export const Header = () => {
         {isMobileMenuOpen && (
           <div className="md:hidden bg-background border-t border-border">
             <ul className="px-6 py-4 space-y-3">
-              {navItems.map((item) => (
-                <li key={item.href}>
-                  <button
-                    onClick={() => handleNavClick(item.href)}
-                    className={`block w-full text-left text-sm py-2 transition-colors focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 rounded ${
-                      activeSection === item.href.substring(1)
-                        ? "text-accent font-medium"
-                        : "text-muted-foreground hover:text-foreground"
-                    }`}
-                  >
-                    {item.label}
-                  </button>
-                </li>
-              ))}
+              {navItems.map((item) => {
+                const isActive = item.isHash
+                  ? activeSection === item.href.substring(1) && !isLearnPage
+                  : location.pathname === item.href;
+                
+                return (
+                  <li key={item.href}>
+                    <button
+                      onClick={() => handleNavClick(item.href, item.isHash)}
+                      className={`block w-full text-left text-sm py-2 transition-colors focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 rounded ${
+                        isActive
+                          ? "text-accent font-medium"
+                          : "text-muted-foreground hover:text-foreground"
+                      }`}
+                    >
+                      {item.label}
+                    </button>
+                  </li>
+                );
+              })}
               <li className="pt-2">
                 <Button
                   variant="default"

@@ -1,0 +1,108 @@
+[
+  {
+    "title": "CI/CD Pipeline — From Commit to Release",
+    "slug": "cicd-pipeline-overview",
+    "domain": "DevOps",
+    "level": "Beginner",
+    "timeToRead": "7m",
+    "tags": ["CI/CD", "Pipelines", "Automation"],
+    "summary": "Understand the core stages of a CI/CD pipeline from commit to production.",
+    "explain": "CI/CD turns code changes into working software via automated stages: **Build → Test → Package → Deploy → Verify**. Each stage adds a quality gate. Release approvals (CAB/eCAB) can be integrated before prod.",
+    "visualize": {
+      "type": "mermaid",
+      "value": "flowchart LR\n    A[Commit]-->B[Build]\n    B-->C[Test]\n    C-->D[Package]\n    D-->E[Deploy]\n    E-->F[Verify]\n    style E fill:#e3f2fd,stroke:#90caf9\n    style F fill:#e8f5e9,stroke:#a5d6a7"
+    },
+    "links": [
+      {"label":"GitHub Actions Basics","url":"https://docs.github.com/actions"},
+      {"label":"Azure DevOps Pipelines","url":"https://learn.microsoft.com/azure/devops/pipelines"}
+    ]
+  },
+  {
+    "title": "GitHub Actions — Basics",
+    "slug": "github-actions-basics",
+    "domain": "DevOps",
+    "level": "Beginner",
+    "timeToRead": "10m",
+    "tags": ["GitHub","Actions","Workflows","Runners"],
+    "summary": "Intro to workflows, jobs, runners, and triggers.",
+    "explain": "A **workflow** is triggered by events (push/PR/schedule). It contains **jobs**, each with **steps** running on a **runner**. Use reusable actions to speed up setup and keep pipelines DRY.",
+    "visualize": {
+      "type": "code",
+      "language": "yaml",
+      "value": "name: CI\non: [push, pull_request]\njobs:\n  build:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n      - uses: actions/setup-node@v4\n        with: { node-version: 20 }\n      - run: npm ci && npm test"
+    },
+    "links": [
+      {"label":"GitHub Actions Docs","url":"https://docs.github.com/actions"}
+    ]
+  },
+  {
+    "title": "Kubernetes 101 — Pods, Deployments, Services",
+    "slug": "kubernetes-101",
+    "domain": "Cloud",
+    "level": "Beginner",
+    "timeToRead": "8m",
+    "tags": ["K8s","Containers","Orchestration"],
+    "summary": "How apps run on Kubernetes using pods, deployments, and services.",
+    "explain": "**Pod** = one or more containers. **Deployment** = desired replica state + rolling updates. **Service** = stable virtual IP for pods. Use **Ingress** to route external traffic.",
+    "visualize": {
+      "type": "mermaid",
+      "value": "flowchart TB\n    A[Deployment]-->B[ReplicaSet]\n    B-->C((Pods))\n    D[Service]-->C\n    E[Ingress]-->D"
+    },
+    "links": [
+      {"label":"K8s Documentation","url":"https://kubernetes.io/docs/"}
+    ]
+  },
+  {
+    "title": "Release Train & Cutover Checklist",
+    "slug": "release-train-cutover",
+    "domain": "Release",
+    "level": "Intermediate",
+    "timeToRead": "6m",
+    "tags": ["Release","Cutover","Governance"],
+    "summary": "Plan predictable releases with a standard train and cutover checklist.",
+    "explain": "Define a **Release Train** cadence (e.g., every 2 weeks). Use a **cutover checklist**: approvals (CAB/eCAB), final sanity tests, rollback plan, communications, and runbook. Track artifacts with hashes.",
+    "visualize": {
+      "type": "checklist",
+      "items": [
+        "CAB approvals collected",
+        "All tests green + sanity checklist",
+        "Backup + rollback plan verified",
+        "Release notes published",
+        "Stakeholders notified"
+      ]
+    },
+    "links": []
+  },
+  {
+    "title": "Change Management (ITIL)",
+    "slug": "itil-change-management",
+    "domain": "ITIL",
+    "level": "Intermediate",
+    "timeToRead": "8m",
+    "tags": ["ITIL","Change","CAB"],
+    "summary": "From change request to CAB to post-implementation review.",
+    "explain": "ITIL Change Management reduces risk by formalizing how changes move to prod. Types: **Standard** (pre-approved), **Normal** (CAB), **Emergency** (eCAB). Always capture evidence.",
+    "visualize": {
+      "type": "mermaid",
+      "value": "flowchart LR\n    A[Change Request]-->B[Assess]\n    B-->C[Approve CAB/eCAB]\n    C-->D[Implement]\n    D-->E[Review]"
+    },
+    "links": [
+      {"label":"ITIL Foundation","url":"https://www.axelos.com/certifications/itil-service-management"}
+    ]
+  },
+  {
+    "title": "Incident → Hotfix Flow",
+    "slug": "incident-hotfix-flow",
+    "domain": "PM",
+    "level": "Intermediate",
+    "timeToRead": "5m",
+    "tags": ["Incident","Hotfix","Stability"],
+    "summary": "Contain incident, patch from last-known-good, and roll forward.",
+    "explain": "Stabilize with **containment**. Patch from **last-known-good** branch. Release hotfix via gated pipeline. Post-incident, **document root cause** and prevent recurrence.",
+    "visualize": {
+      "type": "mermaid",
+      "value": "flowchart LR\n    A[Incident]-->B[Contain]\n    B-->C[Hotfix Branch from LKG]\n    C-->D[Gated Deploy]\n    D-->E[Postmortem]"
+    },
+    "links": []
+  }
+]
