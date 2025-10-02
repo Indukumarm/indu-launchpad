@@ -8,6 +8,8 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
+    --header-h: 4rem;
+    
     --background: 0 0% 100%;
     --foreground: 0 0% 6.7%;
     
@@ -102,6 +104,7 @@ All colors MUST be HSL.
   
   html {
     scroll-behavior: smooth;
+    scroll-padding-top: calc(var(--header-h) + 0.75rem);
   }
   
   @media (prefers-reduced-motion: reduce) {
@@ -174,5 +177,13 @@ All colors MUST be HSL.
   
   html.dark [data-domain] {
     filter: brightness(1.1) saturate(1.05);
+  }
+}
+
+/* Learn article headings scroll margin */
+@layer base {
+  .learn-article h2,
+  .learn-article h3 {
+    scroll-margin-top: calc(var(--header-h) + 0.5rem);
   }
 }

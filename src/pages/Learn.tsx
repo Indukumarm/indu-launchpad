@@ -133,7 +133,7 @@ const Learn = () => {
         <Header />
         <Logo3DWatermark />
 
-        <main className="container mx-auto px-4 py-16">
+        <main className="container mx-auto px-4 py-16 pt-[calc(var(--header-h)+1rem)]">
           {/* Hero Section */}
           <section className="text-center mb-12">
             <div className="inline-flex items-center justify-center p-3 bg-primary/10 rounded-full mb-4">

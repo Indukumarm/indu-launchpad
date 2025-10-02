@@ -121,7 +121,7 @@ const TopicDetail = () => {
         <Logo3DWatermark />
 
         <main 
-          className="container max-w-4xl mx-auto px-4 py-12"
+          className="container max-w-4xl mx-auto px-4 py-12 pt-[calc(var(--header-h)+1rem)] learn-article"
           data-domain={getDomainSlug(topic.domain)}
         >
           {/* Breadcrumb */}
