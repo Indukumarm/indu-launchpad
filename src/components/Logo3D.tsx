@@ -18,7 +18,7 @@ export const Logo3D = ({ className = "" }: Logo3DProps) => {
   return (
     <model-viewer
       ref={modelRef}
-      src="/assets/IM3D-LOGO.gltf"
+      src="/assets/IM3DLoGo-White.glb"
       alt="IM 3D Logo"
       camera-controls
       auto-rotate
