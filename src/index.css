@@ -145,3 +145,34 @@ All colors MUST be HSL.
     }
   }
 }
+
+/* Domain-specific accent colors for Learn pages */
+@layer base {
+  [data-domain="devops"] {
+    --domain-accent: 188 100% 38%; /* Teal #00ACC1 */
+  }
+  
+  [data-domain="cloud"] {
+    --domain-accent: 210 79% 46%; /* Azure Blue #1976D2 */
+  }
+  
+  [data-domain="release"] {
+    --domain-accent: 43 100% 50%; /* Amber #FFB300 */
+  }
+  
+  [data-domain="pm"] {
+    --domain-accent: 231 48% 48%; /* Indigo #3F51B5 */
+  }
+  
+  [data-domain="itil"] {
+    --domain-accent: 291 63% 41%; /* Purple #8E24AA */
+  }
+  
+  [data-domain="insurance"] {
+    --domain-accent: 145 55% 32%; /* Emerald #2E7D32 */
+  }
+  
+  html.dark [data-domain] {
+    filter: brightness(1.1) saturate(1.05);
+  }
+}
