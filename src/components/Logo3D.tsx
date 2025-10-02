@@ -46,8 +46,8 @@ export const Logo3D = ({ className = "" }: Logo3DProps) => {
       auto-rotate
       auto-rotate-delay="0"
       rotation-per-second="30deg"
-      camera-orbit="0deg 75deg 3.5m"
-      field-of-view="35deg"
+      camera-orbit="0deg 75deg 4.5m"
+      field-of-view="45deg"
       interaction-prompt="none"
       className={`filter transition-[filter] duration-300 brightness-0 dark:brightness-[3] dark:invert dark:contrast-125 ${className}`}
       style={{
