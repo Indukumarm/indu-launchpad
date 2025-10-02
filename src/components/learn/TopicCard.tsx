@@ -30,8 +30,12 @@ export const TopicCard = ({ topic, index }: TopicCardProps) => {
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.4, delay: index * 0.1 }}
     >
-      <Link to={`/learn/${topic.slug}`}>
-        <Card className="h-full hover:shadow-lg hover:border-primary/50 transition-all cursor-pointer">
+      <Link 
+        to={`/learn/${topic.slug}`}
+        className="block h-full group focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-lg"
+        aria-label={`Open ${topic.title} - ${topic.summary}`}
+      >
+        <Card className="h-full hover:shadow-lg hover:border-primary/50 transition-all cursor-pointer group-hover:border-primary/70">
           <CardHeader>
             <div className="flex items-start justify-between gap-2 mb-2">
               <Badge className={getDomainColor(topic.domain)}>{topic.domain}</Badge>
@@ -58,7 +62,7 @@ export const TopicCard = ({ topic, index }: TopicCardProps) => {
             </div>
           </CardHeader>
           <CardContent>
-            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+            <div className="flex items-center gap-2 text-sm text-muted-foreground group-hover:text-primary transition-colors">
               <span>{topic.level}</span>
               <span>•</span>
               <span className="flex items-center gap-1">
