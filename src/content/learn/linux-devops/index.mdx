@@ -1,0 +1,52 @@
+---
+title: "Linux for DevOps Engineers"
+slug: "linux-devops"
+domain: "DevOps"
+level: "Beginner"
+timeToRead: "15m"
+tags: ["Linux", "CLI", "Bash", "SSH"]
+summary: "Essential Linux commands, shell scripting, process management, and system administration for DevOps."
+updated: "2025-10-02"
+sources:
+  - { title: "Linux Command Line Basics", url: "https://www.linux.org/" }
+---
+
+# Linux for DevOps Engineers
+
+## Essential Commands
+
+```bash
+# File operations
+ls -lah          # List files with permissions
+cd /var/log      # Change directory
+cat app.log      # View file
+tail -f app.log  # Follow log file
+
+# Process management
+ps aux | grep nginx
+kill -9 PID
+systemctl status nginx
+systemctl restart nginx
+
+# Networking
+netstat -tulpn   # List open ports
+curl https://api.example.com
+wget https://example.com/file.tar.gz
+
+# Disk usage
+df -h            # Disk space
+du -sh /var/log  # Directory size
+```
+
+## Shell Scripting
+
+```bash
+#!/bin/bash
+for service in nginx postgres redis; do
+  systemctl status $service || systemctl start $service
+done
+```
+
+## Further Reading
+
+- [Linux Journey](https://linuxjourney.com/)

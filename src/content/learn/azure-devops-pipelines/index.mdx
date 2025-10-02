@@ -1,0 +1,65 @@
+---
+title: "Azure DevOps Pipelines — Multistage Releases"
+slug: "azure-devops-pipelines"
+domain: "DevOps"
+level: "Intermediate"
+timeToRead: "10m"
+tags: ["Azure DevOps", "Pipelines", "YAML", "CI/CD"]
+summary: "Build multistage Azure DevOps pipelines with YAML, approval gates, and environment management."
+updated: "2025-10-02"
+sources:
+  - { title: "Azure Pipelines Docs", url: "https://learn.microsoft.com/azure/devops/pipelines/" }
+---
+
+# Azure DevOps Pipelines — Multistage Releases
+
+## Multistage YAML Pipeline
+
+```yaml
+trigger:
+  branches:
+    include:
+      - main
+
+stages:
+  - stage: Build
+    jobs:
+      - job: BuildJob
+        pool:
+          vmImage: 'ubuntu-latest'
+        steps:
+          - task: Maven@3
+            inputs:
+              goals: 'clean package'
+          - task: PublishBuildArtifacts@1
+
+  - stage: DeployDev
+    dependsOn: Build
+    jobs:
+      - deployment: DeployDevJob
+        environment: dev
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - task: AzureWebApp@1
+
+  - stage: DeployProd
+    dependsOn: DeployDev
+    jobs:
+      - deployment: DeployProdJob
+        environment: production
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - task: AzureWebApp@1
+```
+
+## Approval Gates
+
+Configure manual approvals in Environments → Approvals and checks.
+
+## Further Reading
+
+- [Azure Pipelines Documentation](https://learn.microsoft.com/azure/devops/pipelines/)

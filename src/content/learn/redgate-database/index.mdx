@@ -1,0 +1,36 @@
+---
+title: "Redgate Database Release Automation"
+slug: "redgate-database"
+domain: "DevOps"
+level: "Intermediate"
+timeToRead: "9m"
+tags: ["Database", "Redgate", "SQL Server", "Automation"]
+summary: "Automate database deployments with Redgate: schema compare, migration scripts, and rollback strategies."
+updated: "2025-10-02"
+sources:
+  - { title: "Redgate SQL Change Automation", url: "https://www.red-gate.com/products/sql-development/sql-change-automation/" }
+---
+
+# Redgate Database Release Automation
+
+## Schema Comparison
+
+```powershell
+# Compare schemas
+SQLCompare /server1:prod-db /db1:myapp /server2:staging-db /db2:myapp /report:diff.html
+```
+
+## CI/CD Integration
+
+```yaml
+- name: Deploy Database Changes
+  run: |
+    sqlpackage /Action:Publish \
+      /SourceFile:myapp.dacpac \
+      /TargetServerName:prod-sql \
+      /TargetDatabaseName:myapp
+```
+
+## Further Reading
+
+- [Redgate Documentation](https://documentation.red-gate.com/)

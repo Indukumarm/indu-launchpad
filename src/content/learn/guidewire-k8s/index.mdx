@@ -1,0 +1,40 @@
+---
+title: "Guidewire Deployment via Kubernetes"
+slug: "guidewire-k8s"
+domain: "Release"
+level: "Advanced"
+timeToRead: "14m"
+tags: ["Guidewire", "Kubernetes", "Insurance", "Deployment"]
+summary: "Deploy Guidewire InsuranceSuite on Kubernetes with Helm charts, PV management, and rolling updates."
+updated: "2025-10-02"
+sources:
+  - { title: "Guidewire Cloud Platform", url: "https://www.guidewire.com/products/cloud-platform/" }
+---
+
+# Guidewire Deployment via Kubernetes
+
+## Architecture
+
+Guidewire InsuranceSuite (PolicyCenter, BillingCenter, ClaimCenter) on Kubernetes.
+
+## Helm Deployment
+
+```yaml
+# values.yaml
+replicaCount: 3
+image:
+  repository: guidewire/policycenter
+  tag: "10.2.0"
+resources:
+  requests:
+    memory: "8Gi"
+    cpu: "4"
+```
+
+```bash
+helm install guidewire ./guidewire-chart -f values.yaml
+```
+
+## Further Reading
+
+- [Guidewire Documentation](https://docs.guidewire.com/)

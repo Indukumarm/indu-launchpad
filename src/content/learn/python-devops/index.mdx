@@ -1,0 +1,45 @@
+---
+title: "Python Scripting in DevOps"
+slug: "python-devops"
+domain: "DevOps"
+level: "Intermediate"
+timeToRead: "12m"
+tags: ["Python", "Automation", "Scripting", "DevOps"]
+summary: "Automate DevOps tasks with Python: deployment scripts, API integrations, log parsing, and AWS SDK."
+updated: "2025-10-02"
+sources:
+  - { title: "Python for DevOps", url: "https://www.python.org/" }
+---
+
+# Python Scripting in DevOps
+
+## Deployment Automation
+
+```python
+import boto3
+
+# Deploy to ECS
+ecs = boto3.client('ecs')
+response = ecs.update_service(
+    cluster='prod-cluster',
+    service='myapp',
+    forceNewDeployment=True
+)
+print(f"Deployed: {response['service']['serviceName']}")
+```
+
+## Log Parsing
+
+```python
+import re
+
+with open('/var/log/nginx/access.log') as f:
+    for line in f:
+        if '500' in line:
+            ip = re.search(r'(\d+\.\d+\.\d+\.\d+)', line).group(1)
+            print(f"500 error from {ip}")
+```
+
+## Further Reading
+
+- [Boto3 Documentation](https://boto3.amazonaws.com/v1/documentation/api/latest/index.html)

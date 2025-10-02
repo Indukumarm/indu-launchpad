@@ -1,0 +1,42 @@
+---
+title: "AWS CI/CD Toolchain"
+slug: "aws-cicd-toolchain"
+domain: "Cloud"
+level: "Intermediate"
+timeToRead: "11m"
+tags: ["AWS", "CodePipeline", "CodeBuild", "EKS"]
+summary: "Build end-to-end CI/CD on AWS with CodePipeline, CodeBuild, ECR, and EKS deployment."
+updated: "2025-10-02"
+sources:
+  - { title: "AWS CodePipeline", url: "https://aws.amazon.com/codepipeline/" }
+---
+
+# AWS CI/CD Toolchain
+
+## Architecture
+
+```mermaid
+flowchart LR
+    A[GitHub] -->|Push| B[CodePipeline]
+    B --> C[CodeBuild]
+    C --> D[ECR]
+    D --> E[EKS]
+```
+
+## CodeBuild Example
+
+```yaml
+version: 0.2
+phases:
+  build:
+    commands:
+      - docker build -t myapp .
+      - docker tag myapp:latest $ECR_REPO:$CODEBUILD_RESOLVED_SOURCE_VERSION
+  post_build:
+    commands:
+      - docker push $ECR_REPO:$CODEBUILD_RESOLVED_SOURCE_VERSION
+```
+
+## Further Reading
+
+- [AWS CodePipeline Documentation](https://aws.amazon.com/codepipeline/)
