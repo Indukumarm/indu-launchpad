@@ -1,11 +1,35 @@
 import { Button } from "@/components/ui/button";
 import { toast } from "@/hooks/use-toast";
 import { ArrowRight, Download } from "lucide-react";
+import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 
 const RESUME_URL = "/Indukumar Mallampali_Resume.pdf";
 const LOGO_3D_URL = ""; // Optional: Add .glb model URL here
 
+const useTheme = () => {
+  const [isDark, setIsDark] = useState(() => 
+    document.documentElement.classList.contains('dark')
+  );
+
+  useEffect(() => {
+    const observer = new MutationObserver(() => {
+      setIsDark(document.documentElement.classList.contains('dark'));
+    });
+
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class']
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
+  return isDark;
+};
+
 export const Hero = () => {
+  const isDark = useTheme();
   const handleResumeClick = (e: React.MouseEvent) => {
     if (!RESUME_URL || RESUME_URL.includes("example.com")) {
       e.preventDefault();
@@ -26,9 +50,43 @@ export const Hero = () => {
   return (
     <section
       id="hero"
-      className="min-h-screen flex items-center justify-center px-6 pt-24 pb-12"
+      className="min-h-screen flex items-center justify-center px-6 pt-24 pb-12 relative overflow-hidden"
     >
-      <div className="max-w-4xl w-full text-center animate-fade-in-up">
+      {/* Animated Background */}
+      <motion.div 
+        className="absolute inset-0 -z-10"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1.5 }}
+      >
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-30 dark:opacity-20"
+          style={{
+            backgroundImage: isDark 
+              ? 'url(/assets/hero-bg-dark.jpg)' 
+              : 'url(/assets/hero-bg-light.jpg)',
+          }}
+        />
+        <motion.div 
+          className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5"
+          animate={{
+            backgroundPosition: ['0% 0%', '100% 100%', '0% 0%'],
+          }}
+          transition={{
+            duration: 20,
+            repeat: Infinity,
+            ease: "linear"
+          }}
+          style={{ backgroundSize: '200% 200%' }}
+        />
+      </motion.div>
+
+      <motion.div 
+        className="max-w-4xl w-full text-center"
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.2 }}
+      >
         {LOGO_3D_URL && (
           <div className="mb-8 flex justify-center">
             <div
@@ -88,7 +146,7 @@ export const Hero = () => {
             Open to Lead DevOps & Release Engineering roles.
           </p>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 };
