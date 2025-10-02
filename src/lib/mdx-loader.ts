@@ -27,11 +27,18 @@ export async function getAllTopics(): Promise<TopicFrontmatter[]> {
 
 // Get single topic by slug
 export async function getTopicBySlug(slug: string): Promise<TopicModule | null> {
-  try {
-    const module = await import(`/src/content/learn/${slug}/index.mdx`);
-    return module as TopicModule;
-  } catch (error) {
-    console.error(`Failed to load topic: ${slug}`, error);
-    return null;
+  const modules = import.meta.glob('/src/content/learn/*/index.mdx');
+  for (const path in modules) {
+    if (path.endsWith(`/${slug}/index.mdx`)) {
+      try {
+        const loaded = (await modules[path]!()) as unknown as TopicModule;
+        return loaded;
+      } catch (error) {
+        console.error(`Failed to dynamically import topic: ${slug} at ${path}`, error);
+        return null;
+      }
+    }
   }
+  console.warn(`Topic not found for slug: ${slug}`);
+  return null;
 }
