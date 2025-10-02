@@ -1,5 +1,42 @@
 [
   {
+    "title": "CI/CD Pipeline — From Commit to Release",
+    "slug": "cicd-pipeline-commit-to-release",
+    "domain": "DevOps",
+    "level": "Beginner",
+    "timeToRead": "10m",
+    "tags": ["CI/CD", "Pipeline", "DevOps", "Automation"],
+    "summary": "Complete CI/CD pipeline workflow from code commit to production deployment.",
+    "explain": "A **CI/CD pipeline** automates software delivery. **Continuous Integration (CI)** merges code frequently, runs tests automatically, and catches issues early. **Continuous Deployment (CD)** automates releases to production. Typical stages: **1) Commit** (dev pushes code) → **2) Build** (compile, package) → **3) Test** (unit, integration, E2E) → **4) Artifact** (store in registry) → **5) Deploy Dev** (auto) → **6) Deploy Staging** (with smoke tests) → **7) Deploy Prod** (with approval gates). Use tools like **GitHub Actions, Jenkins, GitLab CI, Azure Pipelines**. Key benefits: faster releases, fewer bugs, consistent deployments.",
+    "visualize": {
+      "type": "mermaid",
+      "value": "flowchart LR\n    A[Git Commit]-->B[Trigger Pipeline]\n    B-->C[Build & Compile]\n    C-->D[Run Tests]\n    D-->E{Tests Pass?}\n    E-->|Yes|F[Create Artifact]\n    E-->|No|G[Notify Developer]\n    F-->H[Deploy to Dev]\n    H-->I[Deploy to Staging]\n    I-->J{Manual Approval?}\n    J-->|Yes|K[Deploy to Prod]\n    K-->L[Monitor & Rollback if Needed]"
+    },
+    "links": [
+      {"label":"GitHub Actions CI/CD","url":"https://docs.github.com/actions"},
+      {"label":"CI/CD Best Practices","url":"https://www.atlassian.com/continuous-delivery/principles/continuous-integration-vs-delivery-vs-deployment"}
+    ]
+  },
+  {
+    "title": "Kubernetes 101 — Pods, Deployments, Services",
+    "slug": "kubernetes-101-basics",
+    "domain": "Cloud",
+    "level": "Beginner",
+    "timeToRead": "12m",
+    "tags": ["Kubernetes", "K8s", "Containers", "Cloud"],
+    "summary": "Learn the fundamental Kubernetes building blocks: Pods, Deployments, and Services.",
+    "explain": "**Kubernetes (K8s)** orchestrates containers at scale. Core concepts: **Pod** = smallest unit, runs 1+ containers (usually 1). **Deployment** = manages Pods, ensures desired replicas, handles rolling updates and rollbacks. **Service** = stable network endpoint for Pods (types: ClusterIP, NodePort, LoadBalancer). **ReplicaSet** = maintains Pod count (managed by Deployment). **Namespace** = logical isolation. Workflow: Create Deployment → K8s creates ReplicaSet → ReplicaSet creates Pods → Service routes traffic. Use **kubectl** CLI to manage resources. Example: `kubectl apply -f deployment.yaml`, `kubectl get pods`, `kubectl logs <pod-name>`.",
+    "visualize": {
+      "type": "code",
+      "language": "yaml",
+      "value": "# Deployment: Manages 3 replicas of nginx\napiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: nginx-deployment\nspec:\n  replicas: 3\n  selector:\n    matchLabels:\n      app: nginx\n  template:\n    metadata:\n      labels:\n        app: nginx\n    spec:\n      containers:\n      - name: nginx\n        image: nginx:1.21\n        ports:\n        - containerPort: 80\n---\n# Service: Exposes nginx pods via LoadBalancer\napiVersion: v1\nkind: Service\nmetadata:\n  name: nginx-service\nspec:\n  type: LoadBalancer\n  selector:\n    app: nginx\n  ports:\n  - port: 80\n    targetPort: 80"
+    },
+    "links": [
+      {"label":"Kubernetes Official Docs","url":"https://kubernetes.io/docs/home/"},
+      {"label":"K8s Interactive Tutorial","url":"https://kubernetes.io/docs/tutorials/kubernetes-basics/"}
+    ]
+  },
+  {
     "title": "Guidewire Deployment via Kubernetes",
     "slug": "guidewire-k8s-deployment",
     "domain": "Cloud",
