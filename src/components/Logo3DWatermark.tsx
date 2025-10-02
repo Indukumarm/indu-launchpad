@@ -54,7 +54,7 @@ export const Logo3DWatermark = () => {
     >
       <model-viewer
         ref={modelRef}
-        src="/assets/IM3DLoGo-White.glb"
+        src={isDark ? "/assets/IM3DLoGo-White.glb" : "/assets/IM3D-LOGO.gltf"}
         alt="Background logo watermark"
         camera-orbit={`${scrollRotation}deg 75deg 6m`}
         field-of-view="40deg"

@@ -1,11 +1,33 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface Logo3DProps {
   className?: string;
 }
 
+const useTheme = () => {
+  const [isDark, setIsDark] = useState(() => 
+    document.documentElement.classList.contains('dark')
+  );
+
+  useEffect(() => {
+    const observer = new MutationObserver(() => {
+      setIsDark(document.documentElement.classList.contains('dark'));
+    });
+
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class']
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
+  return isDark;
+};
+
 export const Logo3D = ({ className = "" }: Logo3DProps) => {
   const modelRef = useRef<HTMLElement>(null);
+  const isDark = useTheme();
 
   useEffect(() => {
     // Force model-viewer to update when theme changes
@@ -18,7 +40,7 @@ export const Logo3D = ({ className = "" }: Logo3DProps) => {
   return (
     <model-viewer
       ref={modelRef}
-      src="/assets/IM3DLoGo-White.glb"
+      src={isDark ? "/assets/IM3DLoGo-White.glb" : "/assets/IM3D-LOGO.gltf"}
       alt="IM 3D Logo"
       camera-controls
       auto-rotate
