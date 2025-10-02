@@ -6,10 +6,12 @@ import { componentTagger } from "lovable-tagger";
 import mdx from "@mdx-js/rollup";
 import remarkFrontmatter from "remark-frontmatter";
 import remarkMdxFrontmatter from "remark-mdx-frontmatter";
+import viteCompression from "vite-plugin-compression";
 
 export default defineConfig(({ mode }) => ({
-  base: "/", // ✅ custom domain (apex) only
+  base: "/",
   server: { host: "::", port: 8080 },
+  
   plugins: [
     {
       enforce: "pre" as const,
@@ -18,7 +20,47 @@ export default defineConfig(({ mode }) => ({
       }),
     },
     react(),
-    mode === "development" && componentTagger()
+    mode === "development" && componentTagger(),
+    // Brotli compression for production
+    mode === "production" && viteCompression({
+      algorithm: "brotliCompress",
+      ext: ".br",
+      threshold: 1024,
+    }),
+    // Gzip compression for production
+    mode === "production" && viteCompression({
+      algorithm: "gzip",
+      ext: ".gz",
+      threshold: 1024,
+    }),
   ].filter(Boolean),
-  resolve: { alias: { "@": path.resolve(__dirname, "./src") } },
+  
+  resolve: { 
+    alias: { "@": path.resolve(__dirname, "./src") } 
+  },
+  
+  build: {
+    // Performance optimizations
+    minify: "terser",
+    terserOptions: {
+      compress: {
+        drop_console: mode === "production",
+        drop_debugger: true,
+      },
+    },
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ["react", "react-dom", "react-router-dom"],
+          ui: ["@radix-ui/react-dialog", "@radix-ui/react-dropdown-menu"],
+        },
+      },
+    },
+    chunkSizeWarningLimit: 1000,
+    cssMinify: true,
+  },
+  
+  optimizeDeps: {
+    include: ["react", "react-dom", "react-router-dom"],
+  },
 }));

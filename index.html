@@ -3,15 +3,30 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- Security Headers -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://unpkg.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://unpkg.com; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self';" />
+    <meta http-equiv="X-Frame-Options" content="DENY" />
+    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
+    <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=()" />
+    
     <title>Indukumar Mallampali — DevOps & Release Engineering Leader | 9+ Years CI/CD & Cloud</title>
     <meta name="description" content="Indukumar (Indu) Mallampali — 9+ years leading DevOps, Release Engineering, and team leadership. Expertise in CI/CD, Insurance (Workers' Comp, Guidewire), Cloud, and Public Sector domains. Proven leader in automation, reliability, and governance." />
     <meta name="author" content="Indukumar Mallampali" />
     <link rel="canonical" href="https://indumallampali.com" />
     <link rel="icon" type="image/png" href="/favicon.ico" />
     
+    <!-- Preconnect to external domains for faster resource loading -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="https://unpkg.com">
+    
+    <!-- Optimized font loading with display=swap for better performance -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Preload critical 3D model viewer script -->
+    <link rel="modulepreload" href="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js">
     <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 
     <meta property="og:title" content="Indukumar Mallampali — DevOps & Release Engineering Leader | 9+ Years CI/CD & Cloud" />

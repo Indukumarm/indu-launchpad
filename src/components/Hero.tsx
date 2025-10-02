@@ -66,6 +66,8 @@ export const Hero = () => {
               ? 'url(/assets/hero-bg-dark.jpg)' 
               : 'url(/assets/hero-bg-light.jpg)',
           }}
+          role="presentation"
+          aria-hidden="true"
         />
         <motion.div 
           className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5"
