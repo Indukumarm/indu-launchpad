@@ -13,6 +13,19 @@ sources:
 
 # Redgate Database Release Automation
 
+## Database Release Flow
+
+<Diagram>{`
+flowchart LR
+    A[Dev Database] --> B[Schema Compare]
+    B --> C[Generate Script]
+    C --> D[Review Changes]
+    D --> E[Deploy to Test]
+    E --> F[Validation]
+    F --> G[Deploy to Prod]
+    G --> H[Rollback Ready]
+`}</Diagram>
+
 ## Schema Comparison
 
 ```powershell

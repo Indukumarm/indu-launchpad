@@ -17,6 +17,22 @@ sources:
 
 Guidewire InsuranceSuite (PolicyCenter, BillingCenter, ClaimCenter) on Kubernetes.
 
+<Diagram>{`
+graph TB
+    subgraph Kubernetes Cluster
+        PC[PolicyCenter<br/>Pods]
+        BC[BillingCenter<br/>Pods]
+        CC[ClaimCenter<br/>Pods]
+        DB[(PostgreSQL<br/>StatefulSet)]
+    end
+    LB[Load Balancer] --> PC
+    LB --> BC
+    LB --> CC
+    PC --> DB
+    BC --> DB
+    CC --> DB
+`}</Diagram>
+
 ## Helm Deployment
 
 ```yaml
