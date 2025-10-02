@@ -1,108 +1,257 @@
 [
   {
-    "title": "CI/CD Pipeline — From Commit to Release",
-    "slug": "cicd-pipeline-overview",
-    "domain": "DevOps",
-    "level": "Beginner",
-    "timeToRead": "7m",
-    "tags": ["CI/CD", "Pipelines", "Automation"],
-    "summary": "Understand the core stages of a CI/CD pipeline from commit to production.",
-    "explain": "CI/CD turns code changes into working software via automated stages: **Build → Test → Package → Deploy → Verify**. Each stage adds a quality gate. Release approvals (CAB/eCAB) can be integrated before prod.",
+    "title": "Guidewire Deployment via Kubernetes",
+    "slug": "guidewire-k8s-deployment",
+    "domain": "Cloud",
+    "level": "Advanced",
+    "timeToRead": "12m",
+    "tags": ["Guidewire", "Kubernetes", "Insurance", "Cloud"],
+    "summary": "Deploy Guidewire PolicyCenter and ClaimCenter on Kubernetes with Helm charts and persistent storage.",
+    "explain": "Guidewire apps run on JVMs and require **persistent storage for batch processes**, **session affinity**, and **database connectivity**. Use **Helm** to manage configs across environments. Key components: **Deployment** for app servers, **StatefulSet** for batch nodes, **PVC** for shared file storage, **ConfigMaps** for environment-specific settings, and **Secrets** for DB credentials. Use **HPA** for auto-scaling during peak loads.",
     "visualize": {
       "type": "mermaid",
-      "value": "flowchart LR\n    A[Commit]-->B[Build]\n    B-->C[Test]\n    C-->D[Package]\n    D-->E[Deploy]\n    E-->F[Verify]\n    style E fill:#e3f2fd,stroke:#90caf9\n    style F fill:#e8f5e9,stroke:#a5d6a7"
+      "value": "flowchart TB\n    A[Helm Chart]-->B[Deployment: PolicyCenter]\n    A-->C[StatefulSet: Batch Nodes]\n    A-->D[Service: Load Balancer]\n    B-->E[(PVC: Shared Storage)]\n    C-->E\n    B-->F[ConfigMap: Env Vars]\n    B-->G[Secret: DB Creds]\n    D-->H[Ingress: External Traffic]"
     },
     "links": [
-      {"label":"GitHub Actions Basics","url":"https://docs.github.com/actions"},
-      {"label":"Azure DevOps Pipelines","url":"https://learn.microsoft.com/azure/devops/pipelines"}
+      {"label":"Guidewire Cloud Docs","url":"https://docs.guidewire.com/cloud/"}
     ]
   },
   {
-    "title": "GitHub Actions — Basics",
-    "slug": "github-actions-basics",
-    "domain": "DevOps",
-    "level": "Beginner",
-    "timeToRead": "10m",
-    "tags": ["GitHub","Actions","Workflows","Runners"],
-    "summary": "Intro to workflows, jobs, runners, and triggers.",
-    "explain": "A **workflow** is triggered by events (push/PR/schedule). It contains **jobs**, each with **steps** running on a **runner**. Use reusable actions to speed up setup and keep pipelines DRY.",
-    "visualize": {
-      "type": "code",
-      "language": "yaml",
-      "value": "name: CI\non: [push, pull_request]\njobs:\n  build:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n      - uses: actions/setup-node@v4\n        with: { node-version: 20 }\n      - run: npm ci && npm test"
-    },
-    "links": [
-      {"label":"GitHub Actions Docs","url":"https://docs.github.com/actions"}
-    ]
-  },
-  {
-    "title": "Kubernetes 101 — Pods, Deployments, Services",
-    "slug": "kubernetes-101",
-    "domain": "Cloud",
+    "title": "Workers' Comp Insurance Systems – Core Components",
+    "slug": "workers-comp-core-components",
+    "domain": "Insurance",
     "level": "Beginner",
     "timeToRead": "8m",
-    "tags": ["K8s","Containers","Orchestration"],
-    "summary": "How apps run on Kubernetes using pods, deployments, and services.",
-    "explain": "**Pod** = one or more containers. **Deployment** = desired replica state + rolling updates. **Service** = stable virtual IP for pods. Use **Ingress** to route external traffic.",
+    "tags": ["Insurance", "Workers Comp", "PolicyCenter", "ClaimCenter"],
+    "summary": "Understand the core modules in Workers' Comp insurance: PolicyCenter, ClaimCenter, and BillingCenter.",
+    "explain": "**PolicyCenter** manages policy issuance, renewals, and underwriting. **ClaimCenter** handles claims intake, adjudication, and payments. **BillingCenter** tracks premiums and invoices. Integration points include: **Rating engines** (calculate premiums), **FNOL** (First Notice of Loss), **Medical bill review**, and **State reporting**. Data flows via REST APIs or batch ETL jobs.",
     "visualize": {
       "type": "mermaid",
-      "value": "flowchart TB\n    A[Deployment]-->B[ReplicaSet]\n    B-->C((Pods))\n    D[Service]-->C\n    E[Ingress]-->D"
+      "value": "flowchart LR\n    A[PolicyCenter]-->|Policy Data|B[BillingCenter]\n    A-->|Policy Info|C[ClaimCenter]\n    C-->|Claim Payments|B\n    D[Rating Engine]-->A\n    E[Medical Review]-->C\n    C-->F[State Reporting]"
     },
-    "links": [
-      {"label":"K8s Documentation","url":"https://kubernetes.io/docs/"}
-    ]
+    "links": []
   },
   {
-    "title": "Release Train & Cutover Checklist",
-    "slug": "release-train-cutover",
+    "title": "Release Management – CAB & eCAB Workflows",
+    "slug": "cab-ecab-workflows",
     "domain": "Release",
     "level": "Intermediate",
-    "timeToRead": "6m",
-    "tags": ["Release","Cutover","Governance"],
-    "summary": "Plan predictable releases with a standard train and cutover checklist.",
-    "explain": "Define a **Release Train** cadence (e.g., every 2 weeks). Use a **cutover checklist**: approvals (CAB/eCAB), final sanity tests, rollback plan, communications, and runbook. Track artifacts with hashes.",
+    "timeToRead": "10m",
+    "tags": ["Release", "CAB", "eCAB", "ITIL"],
+    "summary": "Navigate Change Advisory Board (CAB) and Emergency CAB for production releases.",
+    "explain": "**CAB** reviews normal changes with 5–7 days lead time. **eCAB** handles emergency fixes with accelerated approval (same-day). Typical flow: **Submit RFC** → **Impact Assessment** → **CAB Review** → **Approval/Rejection** → **Implementation** → **Post-Implementation Review (PIR)**. For eCAB: include **incident ticket**, **rollback plan**, and **business justification**.",
+    "visualize": {
+      "type": "mermaid",
+      "value": "flowchart LR\n    A[Submit RFC]-->B{Change Type?}\n    B-->|Normal|C[CAB Review]\n    B-->|Emergency|D[eCAB Review]\n    C-->E{Approved?}\n    D-->E\n    E-->|Yes|F[Implement]\n    E-->|No|G[Reject/Defer]\n    F-->H[PIR]"
+    },
+    "links": []
+  },
+  {
+    "title": "Go-Live Readiness Checklist",
+    "slug": "go-live-readiness-checklist",
+    "domain": "Release",
+    "level": "Intermediate",
+    "timeToRead": "7m",
+    "tags": ["Release", "Go-Live", "Cutover"],
+    "summary": "Ensure all gates are cleared before production go-live.",
+    "explain": "A **Go-Live Readiness Checklist** ensures nothing is missed during cutover. Cover: **Testing** (UAT, performance, security), **Approvals** (CAB, stakeholders), **Infrastructure** (capacity, monitoring), **Data** (migrations validated), **Rollback** (tested plan), **Communications** (stakeholders notified), and **Support** (teams on standby). Use this for major releases, not hotfixes.",
     "visualize": {
       "type": "checklist",
       "items": [
-        "CAB approvals collected",
-        "All tests green + sanity checklist",
-        "Backup + rollback plan verified",
+        "All UAT test cases passed",
+        "Performance and load tests completed",
+        "Security scans cleared",
+        "CAB approval received",
+        "Infrastructure capacity verified",
+        "Data migration validated",
+        "Rollback plan tested",
         "Release notes published",
-        "Stakeholders notified"
+        "Support teams briefed and on-call"
       ]
     },
     "links": []
   },
   {
-    "title": "Change Management (ITIL)",
-    "slug": "itil-change-management",
-    "domain": "ITIL",
+    "title": "Hotfix Management in Production",
+    "slug": "hotfix-management-production",
+    "domain": "Release",
     "level": "Intermediate",
-    "timeToRead": "8m",
-    "tags": ["ITIL","Change","CAB"],
-    "summary": "From change request to CAB to post-implementation review.",
-    "explain": "ITIL Change Management reduces risk by formalizing how changes move to prod. Types: **Standard** (pre-approved), **Normal** (CAB), **Emergency** (eCAB). Always capture evidence.",
+    "timeToRead": "9m",
+    "tags": ["Hotfix", "Incident", "Production"],
+    "summary": "Rapid hotfix process from incident detection to production deployment.",
+    "explain": "When a **Sev-1 incident** occurs, follow: **1) Contain** (rollback or workaround), **2) Branch** from last-known-good (LKG) release, **3) Patch** with minimal changes, **4) Test** in staging, **5) eCAB approval**, **6) Deploy** via automated pipeline, **7) Monitor**, **8) Post-mortem**. Always document root cause and add regression tests.",
     "visualize": {
       "type": "mermaid",
-      "value": "flowchart LR\n    A[Change Request]-->B[Assess]\n    B-->C[Approve CAB/eCAB]\n    C-->D[Implement]\n    D-->E[Review]"
+      "value": "flowchart LR\n    A[Incident Detected]-->B[Contain]\n    B-->C[Branch from LKG]\n    C-->D[Develop Patch]\n    D-->E[Test in Staging]\n    E-->F[eCAB Approval]\n    F-->G[Deploy to Prod]\n    G-->H[Monitor]\n    H-->I[Post-Mortem]"
+    },
+    "links": []
+  },
+  {
+    "title": "GitHub Actions – Self-Hosted Runners",
+    "slug": "github-actions-self-hosted-runners",
+    "domain": "DevOps",
+    "level": "Intermediate",
+    "timeToRead": "11m",
+    "tags": ["GitHub Actions", "Runners", "CI/CD"],
+    "summary": "Set up and manage self-hosted GitHub Actions runners for private infrastructure.",
+    "explain": "**Self-hosted runners** run on your infrastructure (VMs, K8s) instead of GitHub's cloud. Use cases: **Private network access**, **custom tools**, **larger compute**. Setup: Install runner agent on VM → Register with GitHub → Use `runs-on: self-hosted` in workflows. For scale, use **Kubernetes controller** to auto-scale runner pods. Secure with **secrets management** and **network isolation**.",
+    "visualize": {
+      "type": "code",
+      "language": "yaml",
+      "value": "name: Deploy with Self-Hosted Runner\non: [push]\njobs:\n  deploy:\n    runs-on: self-hosted\n    steps:\n      - uses: actions/checkout@v4\n      - name: Build\n        run: ./build.sh\n      - name: Deploy to Internal Server\n        run: scp ./app deploy@internal-server:/var/www"
     },
     "links": [
-      {"label":"ITIL Foundation","url":"https://www.axelos.com/certifications/itil-service-management"}
+      {"label":"GitHub Self-Hosted Runners","url":"https://docs.github.com/actions/hosting-your-own-runners"}
     ]
   },
   {
-    "title": "Incident → Hotfix Flow",
-    "slug": "incident-hotfix-flow",
-    "domain": "PM",
+    "title": "Azure DevOps Pipelines – Multistage Releases",
+    "slug": "azure-devops-multistage-releases",
+    "domain": "DevOps",
     "level": "Intermediate",
-    "timeToRead": "5m",
-    "tags": ["Incident","Hotfix","Stability"],
-    "summary": "Contain incident, patch from last-known-good, and roll forward.",
-    "explain": "Stabilize with **containment**. Patch from **last-known-good** branch. Release hotfix via gated pipeline. Post-incident, **document root cause** and prevent recurrence.",
+    "timeToRead": "12m",
+    "tags": ["Azure DevOps", "Pipelines", "CI/CD"],
+    "summary": "Build multistage YAML pipelines for dev → staging → prod deployments.",
+    "explain": "Azure Pipelines support **stages** for environment progression. Define **Build** (compile, test, package), **Deploy-Dev** (auto-deploy), **Deploy-Staging** (with approval gate), **Deploy-Prod** (with manual approval). Use **variable groups** for environment-specific configs and **service connections** for Azure/AWS/K8s. Add **quality gates** (SonarQube, security scans) between stages.",
     "visualize": {
-      "type": "mermaid",
-      "value": "flowchart LR\n    A[Incident]-->B[Contain]\n    B-->C[Hotfix Branch from LKG]\n    C-->D[Gated Deploy]\n    D-->E[Postmortem]"
+      "type": "code",
+      "language": "yaml",
+      "value": "stages:\n- stage: Build\n  jobs:\n  - job: BuildJob\n    steps:\n    - script: npm install && npm test\n    - task: PublishBuildArtifacts@1\n\n- stage: DeployDev\n  dependsOn: Build\n  jobs:\n  - deployment: DeployDevJob\n    environment: dev\n    strategy:\n      runOnce:\n        deploy:\n          steps:\n          - script: kubectl apply -f k8s/\n\n- stage: DeployProd\n  dependsOn: DeployDev\n  jobs:\n  - deployment: DeployProdJob\n    environment: prod  # Manual approval required\n    strategy:\n      runOnce:\n        deploy:\n          steps:\n          - script: kubectl apply -f k8s/"
     },
     "links": []
+  },
+  {
+    "title": "AWS CI/CD Toolchain (CodePipeline, CodeBuild, EKS)",
+    "slug": "aws-cicd-toolchain",
+    "domain": "Cloud",
+    "level": "Advanced",
+    "timeToRead": "14m",
+    "tags": ["AWS", "CodePipeline", "EKS", "CI/CD"],
+    "summary": "Build end-to-end CI/CD on AWS using CodePipeline, CodeBuild, ECR, and EKS.",
+    "explain": "**CodePipeline** orchestrates: **Source** (GitHub/CodeCommit) → **Build** (CodeBuild compiles & pushes to ECR) → **Deploy** (kubectl applies to EKS). Use **buildspec.yml** for CodeBuild steps. **ECR** stores container images. **EKS** runs K8s workloads. Add **approval stages** for prod and **CloudWatch alarms** for rollback triggers. Secure with **IAM roles** and **KMS encryption**.",
+    "visualize": {
+      "type": "mermaid",
+      "value": "flowchart LR\n    A[GitHub]-->B[CodePipeline]\n    B-->C[CodeBuild: Build & Test]\n    C-->D[ECR: Push Image]\n    D-->E[Deploy to EKS Dev]\n    E-->F{Manual Approval?}\n    F-->|Yes|G[Deploy to EKS Prod]\n    G-->H[CloudWatch Monitoring]"
+    },
+    "links": []
+  },
+  {
+    "title": "SonarQube Quality Gates",
+    "slug": "sonarqube-quality-gates",
+    "domain": "DevOps",
+    "level": "Intermediate",
+    "timeToRead": "8m",
+    "tags": ["SonarQube", "Code Quality", "CI/CD"],
+    "summary": "Enforce code quality standards with SonarQube Quality Gates in CI/CD pipelines.",
+    "explain": "**Quality Gates** block builds if code fails standards. Metrics: **Code Coverage** (e.g., >80%), **Duplications** (<3%), **Bugs/Vulnerabilities** (0 blockers), **Code Smells** (<100). Integrate via SonarQube Scanner in CI (GitHub Actions, Azure Pipelines, Jenkins). If gate fails, pipeline stops. Use **SonarCloud** for public repos or **self-hosted SonarQube** for enterprise.",
+    "visualize": {
+      "type": "mermaid",
+      "value": "flowchart LR\n    A[Code Commit]-->B[CI Pipeline]\n    B-->C[Build & Test]\n    C-->D[SonarQube Scan]\n    D-->E{Quality Gate?}\n    E-->|Pass|F[Deploy]\n    E-->|Fail|G[Block & Notify]\n    G-->H[Fix Code]"
+    },
+    "links": [
+      {"label":"SonarQube Docs","url":"https://docs.sonarqube.org/"}
+    ]
+  },
+  {
+    "title": "Linux for DevOps Engineers",
+    "slug": "linux-for-devops-engineers",
+    "domain": "DevOps",
+    "level": "Beginner",
+    "timeToRead": "10m",
+    "tags": ["Linux", "Shell", "DevOps"],
+    "summary": "Essential Linux commands and concepts every DevOps engineer should know.",
+    "explain": "Master: **File system** (cd, ls, find), **Permissions** (chmod, chown), **Processes** (ps, top, kill), **Networking** (netstat, curl, ssh), **Disk** (df, du), **Logs** (tail, grep, journalctl), **Package management** (apt, yum), **Scripting** (bash, cron). Learn **systemd** for service management and **iptables/firewalld** for firewalls. Use **tmux/screen** for persistent sessions.",
+    "visualize": {
+      "type": "checklist",
+      "items": [
+        "Navigate file system (cd, ls, pwd)",
+        "Manage files (cp, mv, rm, find)",
+        "Set permissions (chmod, chown)",
+        "Monitor processes (ps, top, htop)",
+        "Check network (netstat, ss, curl)",
+        "View logs (tail -f, grep, journalctl)",
+        "Manage services (systemctl start/stop/status)",
+        "Write bash scripts for automation"
+      ]
+    },
+    "links": []
+  },
+  {
+    "title": "Python Scripting in DevOps",
+    "slug": "python-scripting-devops",
+    "domain": "DevOps",
+    "level": "Intermediate",
+    "timeToRead": "11m",
+    "tags": ["Python", "Scripting", "Automation"],
+    "summary": "Use Python to automate DevOps tasks like deployments, monitoring, and integrations.",
+    "explain": "Python excels at: **API integrations** (requests library), **Infrastructure automation** (boto3 for AWS, Azure SDK), **Log parsing** (re, pandas), **Config management** (YAML, JSON), **CI/CD scripts** (subprocess, argparse). Common use cases: **Deploy scripts**, **health checks**, **alerts**, **report generation**. Use **virtual environments** (venv) and **requirements.txt** for dependencies.",
+    "visualize": {
+      "type": "code",
+      "language": "python",
+      "value": "import boto3\nimport requests\n\n# Deploy to AWS ECS\necs = boto3.client('ecs')\necs.update_service(\n    cluster='prod-cluster',\n    service='web-app',\n    forceNewDeployment=True\n)\n\n# Health check\nresponse = requests.get('https://api.example.com/health')\nif response.status_code != 200:\n    # Send alert to Slack\n    requests.post(\n        'https://hooks.slack.com/services/YOUR_WEBHOOK',\n        json={'text': 'API health check failed!'}\n    )"
+    },
+    "links": []
+  },
+  {
+    "title": "ITIL Change Management Lifecycle",
+    "slug": "itil-change-management-lifecycle",
+    "domain": "ITIL",
+    "level": "Intermediate",
+    "timeToRead": "9m",
+    "tags": ["ITIL", "Change Management", "CAB"],
+    "summary": "Complete ITIL change lifecycle from request to post-implementation review.",
+    "explain": "ITIL Change Management ensures controlled transitions. Lifecycle: **1) Request for Change (RFC)** → **2) Assessment** (impact, risk) → **3) Authorization** (CAB approval) → **4) Planning** (schedule, resources) → **5) Implementation** (execute change) → **6) Review** (PIR validates success). Document everything in ITSM tool (ServiceNow, Jira). Track KPIs: **change success rate**, **emergency changes %**, **average lead time**.",
+    "visualize": {
+      "type": "mermaid",
+      "value": "flowchart TD\n    A[RFC Submitted]-->B[Log & Categorize]\n    B-->C[Assess Impact & Risk]\n    C-->D{Authorization}\n    D-->|Approved|E[Plan Change]\n    D-->|Rejected|F[Close RFC]\n    E-->G[Implement Change]\n    G-->H[Verify Success]\n    H-->I[Post-Implementation Review]\n    I-->J[Close Change]"
+    },
+    "links": []
+  },
+  {
+    "title": "Incident Management – Root Cause Analysis (RCA)",
+    "slug": "incident-management-rca",
+    "domain": "ITIL",
+    "level": "Intermediate",
+    "timeToRead": "10m",
+    "tags": ["Incident", "RCA", "ITIL", "PM"],
+    "summary": "Conduct effective root cause analysis after production incidents.",
+    "explain": "RCA identifies **why** incidents occurred and prevents recurrence. Steps: **1) Define problem**, **2) Collect data** (logs, metrics, timelines), **3) Identify root cause** (5 Whys, Fishbone diagram), **4) Implement fixes**, **5) Verify effectiveness**. Document in **post-mortem** with: **incident summary**, **timeline**, **root cause**, **action items**, **owner assignments**. Share with stakeholders.",
+    "visualize": {
+      "type": "mermaid",
+      "value": "flowchart LR\n    A[Incident Occurs]-->B[Immediate Fix]\n    B-->C[Collect Evidence]\n    C-->D[Root Cause Analysis]\n    D-->E{5 Whys}\n    E-->F[Identify Root Cause]\n    F-->G[Corrective Actions]\n    G-->H[Implement Fixes]\n    H-->I[Verify & Monitor]\n    I-->J[Document & Share]"
+    },
+    "links": []
+  },
+  {
+    "title": "Project Management in DevOps – Agile + ITIL Alignment",
+    "slug": "project-management-agile-itil",
+    "domain": "PM",
+    "level": "Intermediate",
+    "timeToRead": "11m",
+    "tags": ["PM", "Agile", "ITIL", "DevOps"],
+    "summary": "Align Agile development with ITIL governance for DevOps projects.",
+    "explain": "**Agile** delivers features fast via sprints. **ITIL** ensures stability via change control. Align by: **1) Sprints feed release trains**, **2) Definition of Done includes CAB approval**, **3) Pre-approved standard changes for minor updates**, **4) Emergency changes follow eCAB**, **5) Retrospectives include incident reviews**. Use tools: **Jira for Agile**, **ServiceNow for ITIL**, integrate via APIs.",
+    "visualize": {
+      "type": "mermaid",
+      "value": "flowchart TB\n    A[Sprint Planning]-->B[Development]\n    B-->C[Testing]\n    C-->D{Ready for Release?}\n    D-->|Yes|E[Submit RFC]\n    E-->F[CAB Review]\n    F-->|Approved|G[Release Train]\n    G-->H[Production Deploy]\n    H-->I[Monitor]\n    I-->J[Sprint Retro + PIR]"
+    },
+    "links": []
+  },
+  {
+    "title": "Redgate Database Release Automation",
+    "slug": "redgate-database-automation",
+    "domain": "Release",
+    "level": "Advanced",
+    "timeToRead": "13m",
+    "tags": ["Redgate", "Database", "CI/CD", "SQL"],
+    "summary": "Automate database schema changes and deployments with Redgate tools.",
+    "explain": "**Redgate SQL Change Automation** integrates DB deployments into CI/CD. Workflow: **1) Devs work in source control** (migrations-based or state-based), **2) CI builds & validates schema changes**, **3) Generate migration scripts**, **4) Test on staging DB**, **5) Deploy to prod via pipeline**. Use **drift detection** to catch manual changes. Supports rollback via **undo scripts**. Integrates with Azure DevOps, Jenkins, GitHub Actions.",
+    "visualize": {
+      "type": "mermaid",
+      "value": "flowchart LR\n    A[SQL Scripts in Git]-->B[CI Pipeline]\n    B-->C[Redgate Build]\n    C-->D[Generate Migration]\n    D-->E[Test on Staging DB]\n    E-->F{Validation Pass?}\n    F-->|Yes|G[Deploy to Prod DB]\n    F-->|No|H[Block & Alert]\n    G-->I[Verify Schema]\n    I-->J[Backup & Monitor]"
+    },
+    "links": [
+      {"label":"Redgate Docs","url":"https://www.red-gate.com/products/sql-development/"}
+    ]
   }
 ]
