@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Moon, Sun, Menu, X } from "lucide-react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/hooks/use-toast";
 import { Logo3D } from "@/components/Logo3D";
@@ -118,14 +118,18 @@ export const Header = () => {
           <nav className="flex items-center justify-between" aria-label="Main navigation">
 
             {/* Logo and Name */}
-            <div className="flex items-center gap-3">
+            <Link 
+              to="/" 
+              className="flex items-center gap-3 hover:opacity-80 transition-opacity focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 rounded-lg"
+              aria-label="Go to home page"
+            >
               <div className="w-16 h-16 flex-shrink-0">
                 <Logo3D />
               </div>
               <span className="text-lg font-semibold tracking-tight">
                 Indukumar Mallampali
               </span>
-            </div>
+            </Link>
 
             {/* Desktop Nav */}
             <ul className="hidden md:flex items-center gap-8">
