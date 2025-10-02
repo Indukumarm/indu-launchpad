@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { MermaidDiagram } from "./MermaidDiagram";
 import { CodeBlock } from "./CodeBlock";
+import { Diagram } from "./Diagram";
 
 // Custom components for MDX content
 export const mdxComponents = {
@@ -85,4 +86,7 @@ export const mdxComponents = {
       {children}
     </blockquote>
   ),
+
+  // Diagram component for Mermaid charts
+  Diagram,
 };
