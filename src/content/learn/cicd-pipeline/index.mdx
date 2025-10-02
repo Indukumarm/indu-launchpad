@@ -14,12 +14,35 @@ sources:
 
 # CI/CD Pipeline — From Commit to Release
 
-## What is CI/CD?
+## What You'll Learn
+- How CI/CD automates software delivery from commit to production
+- The stages of a modern pipeline: build, test, artifact, and deploy
+- Deployment strategies: blue-green and canary releases
+- Rollback procedures and health check automation
+- Best practices for pipeline performance and security
 
-A **CI/CD pipeline** automates the software delivery process from code commit to production deployment. It consists of two main practices:
+## Overview
 
-- **Continuous Integration (CI)**: Automatically merge code changes, run tests, and catch issues early
-- **Continuous Deployment (CD)**: Automatically deploy tested code to production environments
+A **CI/CD pipeline** automates the software delivery process, enabling teams to release features faster while maintaining quality. **Continuous Integration (CI)** merges code frequently and runs automated tests to catch issues early. **Continuous Deployment (CD)** automatically releases tested code to production environments.
+
+**Why it matters**: Manual deployments are error-prone, slow, and don't scale. Automated pipelines reduce deployment time from hours to minutes, catch bugs before production, and enable teams to ship multiple times per day with confidence.
+
+## Architecture / Flow
+
+```mermaid
+flowchart LR
+    A[Git Commit] --> B[Build & Test]
+    B --> C{Tests Pass?}
+    C -->|No| D[Notify Dev]
+    C -->|Yes| E[Create Artifact]
+    E --> F[Deploy to DEV]
+    F --> G[Deploy to STAGING]
+    G --> H{Manual Approval?}
+    H -->|Yes| I[Deploy to PROD]
+    I --> J[Monitor & Health Check]
+    J --> K{Issues?}
+    K -->|Yes| L[Auto Rollback]
+```
 
 ## Pipeline Stages
 

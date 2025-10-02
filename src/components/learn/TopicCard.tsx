@@ -1,30 +1,12 @@
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Clock, ArrowRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-
-interface Topic {
-  title: string;
-  slug: string;
-  domain: string;
-  level: string;
-  timeToRead: string;
-  tags: string[];
-  summary: string;
-  explain: string;
-  visualize: {
-    type: "mermaid" | "code" | "checklist";
-    value?: string;
-    language?: string;
-    items?: string[];
-  };
-  links?: Array<{ label: string; url: string }>;
-}
+import type { TopicFrontmatter } from "@/lib/mdx-loader";
 
 interface TopicCardProps {
-  topic: Topic;
+  topic: TopicFrontmatter;
   index: number;
 }
 

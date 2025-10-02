@@ -14,14 +14,18 @@ sources:
 
 # Kubernetes 101 — Pods, Deployments, Services
 
-## What is Kubernetes?
+## What You'll Learn
+- Core Kubernetes concepts: Pods, Deployments, Services, and ReplicaSets
+- How to deploy and scale containerized applications
+- Rolling updates and instant rollback procedures
+- Service types for internal and external access
+- Essential kubectl commands for daily operations
 
-**Kubernetes (K8s)** orchestrates containerized applications at scale. It automates:
-- **Deployment**: Roll out updates without downtime
-- **Scaling**: Automatically add/remove container instances
-- **Self-healing**: Restart failed containers, reschedule on healthy nodes
-- **Load balancing**: Distribute traffic across containers
-- **Secret management**: Securely store credentials
+## Overview
+
+**Kubernetes (K8s)** orchestrates containerized applications at scale, handling deployment, scaling, self-healing, load balancing, and secrets management automatically.
+
+**Why it matters**: Managing containers manually across multiple servers is complex and error-prone. Kubernetes provides a declarative platform where you describe your desired state ("I want 3 replicas of nginx"), and it continuously ensures that state is maintained—even when containers crash or nodes fail.
 
 ## Core Concepts
 
