@@ -40,30 +40,21 @@ const contactSchema = z.object({
     .string()
     .trim()
     .email({ message: "Invalid email address" })
-    .refine(
-      (email) => {
-        const domain = email.split("@")[1];
-        return !freeEmailDomains.includes(domain);
-      },
-      { message: "Please use your work email address" }
-    ),
+    .max(255, { message: "Email must be less than 255 characters" }),
+  subject: z
+    .string()
+    .trim()
+    .min(3, { message: "Subject must be at least 3 characters" })
+    .max(100, { message: "Subject must be less than 100 characters" }),
   message: z
     .string()
     .trim()
     .min(20, { message: "Message must be at least 20 characters" })
-    .max(2000, { message: "Message must be less than 2000 characters" })
-    .refine(
-      (msg) => {
-        const urlPattern = /^https?:\/\//;
-        return !urlPattern.test(msg.trim());
-      },
-      { message: "Message cannot be only a URL" }
-    ),
-  role: z.string().optional(),
+    .max(2000, { message: "Message must be less than 2000 characters" }),
   consent: z.boolean().refine((val) => val === true, {
     message: "You must agree to be contacted",
   }),
-  honeypot: z.string().max(0),
+  company_website: z.string().max(0),
 });
 
 type ContactFormValues = z.infer<typeof contactSchema>;
@@ -78,10 +69,10 @@ export const ContactForm = () => {
     defaultValues: {
       name: "",
       email: "",
+      subject: "",
       message: "",
-      role: "",
       consent: false,
-      honeypot: "",
+      company_website: "",
     },
   });
 
@@ -100,18 +91,47 @@ export const ContactForm = () => {
     setIsSubmitting(true);
     setLastSubmitTime(now);
 
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    try {
+      const response = await fetch("https://formspree.io/f/xyzabcd", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: data.name,
+          email: data.email,
+          _replyto: data.email,
+          subject: data.subject,
+          message: data.message,
+        }),
+      });
 
-    (window as any).dataLayer?.push({ event: "contact_submit" });
+      if (!response.ok) {
+        throw new Error("Failed to send message");
+      }
 
-    toast({
-      title: "Message received!",
-      description: "Thanks—your message is in. I'll get back within 2 business days.",
-    });
+      (window as any).dataLayer?.push({ event: "contact_submit" });
 
-    form.reset();
-    setIsSubmitting(false);
+      toast({
+        title: "Message sent!",
+        description: "Thanks! I'll reply soon.",
+      });
+
+      form.reset();
+      
+      // Disable button for 2 seconds after success
+      setTimeout(() => {
+        setIsSubmitting(false);
+      }, 2000);
+    } catch (error) {
+      console.error("Form submission error:", error);
+      toast({
+        variant: "destructive",
+        title: "Failed to send message",
+        description: "Something went wrong. Please try again or email me directly.",
+      });
+      setIsSubmitting(false);
+    }
   };
 
   const handleResumeClick = (e: React.MouseEvent) => {
@@ -166,7 +186,7 @@ export const ContactForm = () => {
                   name="email"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Work Email *</FormLabel>
+                      <FormLabel>Email *</FormLabel>
                       <FormControl>
                         <Input
                           type="email"
@@ -181,28 +201,16 @@ export const ContactForm = () => {
 
                 <FormField
                   control={form.control}
-                  name="role"
+                  name="subject"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>I am a... (optional)</FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select your role" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          <SelectItem value="recruiter">Recruiter</SelectItem>
-                          <SelectItem value="eng-leader">
-                            Engineering Leader
-                          </SelectItem>
-                          <SelectItem value="it-pro">IT Professional</SelectItem>
-                          <SelectItem value="other">Other</SelectItem>
-                        </SelectContent>
-                      </Select>
+                      <FormLabel>Subject *</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="What's this about?"
+                          {...field}
+                        />
+                      </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -250,9 +258,9 @@ export const ContactForm = () => {
                 {/* Honeypot */}
                 <FormField
                   control={form.control}
-                  name="honeypot"
+                  name="company_website"
                   render={({ field }) => (
-                    <FormItem className="hidden">
+                    <FormItem className="hidden" aria-hidden="true">
                       <FormControl>
                         <Input {...field} tabIndex={-1} autoComplete="off" />
                       </FormControl>
