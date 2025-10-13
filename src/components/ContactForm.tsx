@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -22,13 +22,17 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
-import { CalendarDays, Download, Mail } from "lucide-react";
+import { CalendarDays, Download, Mail, Loader2 } from "lucide-react";
 
 const RESUME_URL = "/Indukumar Mallampali_Resume.pdf";
 const EMAIL = "mailto:hello@indumallampali.com";
 const CALENDLY_URL = "https://calendly.com/indu/intro";
 
 const freeEmailDomains = ["gmail.com", "yahoo.com", "hotmail.com", "outlook.com"];
+
+// Formspree configuration
+const FORMSPREE_FORM_ID = import.meta.env.VITE_FORMSPREE_FORM_ID || "REPLACE_ME";
+const FORMSPREE_ENDPOINT = `https://formspree.io/f/${FORMSPREE_FORM_ID}`;
 
 const contactSchema = z.object({
   name: z
@@ -76,6 +80,29 @@ export const ContactForm = () => {
     },
   });
 
+  // Initialize cooldown from localStorage on mount
+  useEffect(() => {
+    if (import.meta.env.DEV) return;
+    const cooldownMs = 5000;
+    const last = localStorage.getItem("contact_last_submit");
+    if (!last) return;
+    const elapsed = Date.now() - parseInt(last, 10);
+    if (elapsed < cooldownMs) {
+      const remaining = Math.ceil((cooldownMs - elapsed) / 1000);
+      setCooldownSeconds(remaining);
+      const interval = setInterval(() => {
+        setCooldownSeconds((prev) => {
+          if (prev <= 1) {
+            clearInterval(interval);
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+      return () => clearInterval(interval);
+    }
+  }, []);
+
   const onSubmit = async (data: ContactFormValues) => {
     // Smart cooldown: only after successful submit, 5s, disabled in dev
     if (!import.meta.env.DEV) {
@@ -98,11 +125,6 @@ export const ContactForm = () => {
             });
           }, 1000);
           
-          toast({
-            variant: "destructive",
-            title: "Please wait",
-            description: `You can submit again in ${remainingSeconds} seconds.`,
-          });
           return;
         }
       }
@@ -115,7 +137,7 @@ export const ContactForm = () => {
       const formData = new FormData();
       formData.append("name", data.name);
       formData.append("email", data.email);
-      formData.append("_replyto", data.email);
+      // _replyto removed to match required fields (name, email, subject, message)
       formData.append("subject", data.subject);
       formData.append("message", data.message);
 
@@ -126,7 +148,7 @@ export const ContactForm = () => {
 
       // Race between fetch and timeout
       const response = await Promise.race([
-        fetch("https://formspree.io/f/REPLACE_ME", {
+        fetch(FORMSPREE_ENDPOINT, {
           method: "POST",
           headers: {
             Accept: "application/json",
@@ -140,10 +162,10 @@ export const ContactForm = () => {
 
       if (!response.ok) {
         // Handle specific error cases
-        let errorMessage = "Failed to send message. Please try again.";
+        let errorMessage = "An unexpected error occurred. Please try again.";
         
         if (response.status === 403) {
-          errorMessage = "Endpoint not verified. Please check your email to verify your Formspree account.";
+          errorMessage = "Verify your Formspree endpoint by confirming the email sent to you.";
         } else if (response.status === 422) {
           // Validation errors from Formspree
           errorMessage = json?.errors?.map((e: any) => e.message).join(", ") || 
@@ -162,6 +184,16 @@ export const ContactForm = () => {
       // Set cooldown only after successful submit
       if (!import.meta.env.DEV) {
         localStorage.setItem("contact_last_submit", Date.now().toString());
+        setCooldownSeconds(5);
+        const interval = setInterval(() => {
+          setCooldownSeconds((prev) => {
+            if (prev <= 1) {
+              clearInterval(interval);
+              return 0;
+            }
+            return prev - 1;
+          });
+        }, 1000);
       }
 
       toast({
@@ -171,10 +203,7 @@ export const ContactForm = () => {
 
       form.reset();
       
-      // Disable button for 2 seconds after success
-      setTimeout(() => {
-        setIsSubmitting(false);
-      }, 2000);
+      setIsSubmitting(false);
     } catch (error) {
       // Log detailed error for debugging
       console.error("❌ Contact Form Submission Error:", {
@@ -184,14 +213,31 @@ export const ContactForm = () => {
         timestamp: new Date().toISOString(),
       });
       
-      const errorMessage = error instanceof Error 
-        ? error.message 
-        : "Network error. Please try again or email me directly.";
-      
+      let title = "Submission failed";
+      let description = "An error occurred. Please try again.";
+
+      if (error instanceof Error) {
+        if (error.name === "AbortError") {
+          title = "Network issue";
+          description = "Request timed out, please try again.";
+        } else if (/network|failed to fetch/i.test(error.message)) {
+          title = "Network issue";
+          description = "Network issue, please try again.";
+        } else if (/verify|endpoint not verified|403/i.test(error.message)) {
+          title = "Action required";
+          description = "Verify your Formspree endpoint by confirming the email sent to you.";
+        } else {
+          description = error.message;
+        }
+      } else {
+        title = "Network issue";
+        description = "Network issue, please try again.";
+      }
+
       toast({
         variant: "destructive",
-        title: "Failed to send message",
-        description: errorMessage,
+        title,
+        description,
       });
       setIsSubmitting(false);
     }
@@ -337,11 +383,16 @@ export const ContactForm = () => {
                   disabled={isSubmitting || cooldownSeconds > 0}
                   className="w-full bg-accent hover:bg-accent/90 text-accent-foreground"
                 >
-                  {isSubmitting 
-                    ? "Sending..." 
-                    : cooldownSeconds > 0 
-                    ? `Please wait ${cooldownSeconds}s...` 
-                    : "Send Message"}
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" aria-hidden="true" />
+                      Sending...
+                    </>
+                  ) : cooldownSeconds > 0 ? (
+                    `Please wait ${cooldownSeconds}s...`
+                  ) : (
+                    "Send Message"
+                  )}
                 </Button>
               </form>
             </Form>
