@@ -92,22 +92,41 @@ export const ContactForm = () => {
     setLastSubmitTime(now);
 
     try {
-      const response = await fetch("https://formspree.io/f/xyzabcd", {
+      // Create FormData for Formspree
+      const formData = new FormData();
+      formData.append("name", data.name);
+      formData.append("email", data.email);
+      formData.append("_replyto", data.email);
+      formData.append("subject", data.subject);
+      formData.append("message", data.message);
+
+      const response = await fetch("https://formspree.io/f/REPLACE_ME", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
+          Accept: "application/json",
         },
-        body: JSON.stringify({
-          name: data.name,
-          email: data.email,
-          _replyto: data.email,
-          subject: data.subject,
-          message: data.message,
-        }),
+        body: formData,
       });
 
+      const json = await response.json().catch(() => ({}));
+
       if (!response.ok) {
-        throw new Error("Failed to send message");
+        // Handle specific error cases
+        let errorMessage = "Failed to send message. Please try again.";
+        
+        if (response.status === 403) {
+          errorMessage = "Endpoint not verified. Please check your email to verify your Formspree account.";
+        } else if (response.status === 422) {
+          // Validation errors from Formspree
+          errorMessage = json?.errors?.map((e: any) => e.message).join(", ") || 
+                        "Validation failed. Please check your inputs.";
+        } else if (json?.error) {
+          errorMessage = json.error;
+        } else if (json?.errors) {
+          errorMessage = json.errors.map((e: any) => e.message).join(", ");
+        }
+
+        throw new Error(errorMessage);
       }
 
       (window as any).dataLayer?.push({ event: "contact_submit" });
@@ -125,10 +144,15 @@ export const ContactForm = () => {
       }, 2000);
     } catch (error) {
       console.error("Form submission error:", error);
+      
+      const errorMessage = error instanceof Error 
+        ? error.message 
+        : "Network error. Please try again or email me directly.";
+      
       toast({
         variant: "destructive",
         title: "Failed to send message",
-        description: "Something went wrong. Please try again or email me directly.",
+        description: errorMessage,
       });
       setIsSubmitting(false);
     }
