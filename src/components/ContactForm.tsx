@@ -62,7 +62,7 @@ type ContactFormValues = z.infer<typeof contactSchema>;
 export const ContactForm = () => {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [lastSubmitTime, setLastSubmitTime] = useState(0);
+  const [cooldownSeconds, setCooldownSeconds] = useState(0);
 
   const form = useForm<ContactFormValues>({
     resolver: zodResolver(contactSchema),
@@ -77,19 +77,38 @@ export const ContactForm = () => {
   });
 
   const onSubmit = async (data: ContactFormValues) => {
-    // Rate limiting
-    const now = Date.now();
-    if (now - lastSubmitTime < 20000) {
-      toast({
-        variant: "destructive",
-        title: "Too many requests",
-        description: "Please wait 20 seconds before submitting again.",
-      });
-      return;
+    // Smart cooldown: only after successful submit, 5s, disabled in dev
+    if (!import.meta.env.DEV) {
+      const lastSubmit = localStorage.getItem("contact_last_submit");
+      if (lastSubmit) {
+        const elapsed = Date.now() - parseInt(lastSubmit, 10);
+        const cooldownMs = 5000; // 5 seconds
+        if (elapsed < cooldownMs) {
+          const remainingSeconds = Math.ceil((cooldownMs - elapsed) / 1000);
+          setCooldownSeconds(remainingSeconds);
+          
+          // Start countdown timer
+          const interval = setInterval(() => {
+            setCooldownSeconds((prev) => {
+              if (prev <= 1) {
+                clearInterval(interval);
+                return 0;
+              }
+              return prev - 1;
+            });
+          }, 1000);
+          
+          toast({
+            variant: "destructive",
+            title: "Please wait",
+            description: `You can submit again in ${remainingSeconds} seconds.`,
+          });
+          return;
+        }
+      }
     }
 
     setIsSubmitting(true);
-    setLastSubmitTime(now);
 
     try {
       // Create FormData for Formspree
@@ -139,6 +158,11 @@ export const ContactForm = () => {
       }
 
       (window as any).dataLayer?.push({ event: "contact_submit" });
+
+      // Set cooldown only after successful submit
+      if (!import.meta.env.DEV) {
+        localStorage.setItem("contact_last_submit", Date.now().toString());
+      }
 
       toast({
         title: "Message sent!",
@@ -310,10 +334,14 @@ export const ContactForm = () => {
                 <Button
                   type="submit"
                   size="lg"
-                  disabled={isSubmitting}
+                  disabled={isSubmitting || cooldownSeconds > 0}
                   className="w-full bg-accent hover:bg-accent/90 text-accent-foreground"
                 >
-                  {isSubmitting ? "Sending..." : "Send Message"}
+                  {isSubmitting 
+                    ? "Sending..." 
+                    : cooldownSeconds > 0 
+                    ? `Please wait ${cooldownSeconds}s...` 
+                    : "Send Message"}
                 </Button>
               </form>
             </Form>
