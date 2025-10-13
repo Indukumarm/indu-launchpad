@@ -100,13 +100,22 @@ export const ContactForm = () => {
       formData.append("subject", data.subject);
       formData.append("message", data.message);
 
-      const response = await fetch("https://formspree.io/f/REPLACE_ME", {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-        },
-        body: formData,
-      });
+      // Create timeout promise (12 seconds)
+      const timeoutPromise = new Promise<Response>((_, reject) =>
+        setTimeout(() => reject(new Error("Request timeout. Please try again or email me directly.")), 12000)
+      );
+
+      // Race between fetch and timeout
+      const response = await Promise.race([
+        fetch("https://formspree.io/f/REPLACE_ME", {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+          },
+          body: formData,
+        }),
+        timeoutPromise
+      ]);
 
       const json = await response.json().catch(() => ({}));
 
@@ -143,7 +152,13 @@ export const ContactForm = () => {
         setIsSubmitting(false);
       }, 2000);
     } catch (error) {
-      console.error("Form submission error:", error);
+      // Log detailed error for debugging
+      console.error("❌ Contact Form Submission Error:", {
+        error,
+        message: error instanceof Error ? error.message : "Unknown error",
+        stack: error instanceof Error ? error.stack : undefined,
+        timestamp: new Date().toISOString(),
+      });
       
       const errorMessage = error instanceof Error 
         ? error.message 
