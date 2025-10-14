@@ -40,8 +40,8 @@ export default defineConfig(({ mode }) => ({
   },
   
   build: {
-    // Enable source maps in production for better error tracking
-    sourcemap: mode === "production" ? "hidden" : true,
+    // Enable source maps for production error tracking
+    sourcemap: true,
     
     // Performance optimizations
     minify: "esbuild",

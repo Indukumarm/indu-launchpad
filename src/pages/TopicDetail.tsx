@@ -44,16 +44,30 @@ const TopicDetail = () => {
         ]);
 
         if (!topicModule) {
-          console.warn(`Topic not found: ${slug}`);
+          console.warn(`[TopicDetail] Topic not found: ${slug}`);
+          toast({
+            title: "Topic not found",
+            description: `The topic "${slug}" could not be loaded.`,
+            variant: "destructive",
+          });
           navigate("/learn");
           return;
         }
 
+        console.log(`[TopicDetail] Loaded topic: ${slug}`);
         setTopic(topicModule.frontmatter);
         setTopicContent(() => topicModule.default);
         setAllTopics(topics);
       } catch (error) {
-        console.error(`Failed to load topic "${slug}":`, error);
+        console.error(`[TopicDetail] Failed to load topic "${slug}":`, error);
+        console.error("[TopicDetail] Error stack:", error instanceof Error ? error.stack : "No stack");
+        toast({
+          title: "Failed to load topic",
+          description: import.meta.env.DEV 
+            ? `Error: ${error instanceof Error ? error.message : "Unknown error"}`
+            : "This topic encountered an error while loading.",
+          variant: "destructive",
+        });
         navigate("/learn");
       }
     };

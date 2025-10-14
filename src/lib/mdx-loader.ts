@@ -24,11 +24,23 @@ export async function getAllTopics(): Promise<TopicFrontmatter[]> {
     eager: true,
   });
 
-  const topics = Object.values(modules).map((module) => module.frontmatter);
+  const topics = Object.values(modules).map((module, index) => {
+    const frontmatter = module.frontmatter;
+    
+    // Validate each topic in development
+    if (import.meta.env.DEV) {
+      const validation = validateTopic(frontmatter, frontmatter?.slug || `topic-${index}`);
+      if (!validation.valid) {
+        console.error(`❌ Invalid topic frontmatter:`, validation.errors);
+      }
+    }
+    
+    return frontmatter;
+  });
   
-  // Validate topics in development
+  // Log summary in development
   if (import.meta.env.DEV) {
-    validateAllTopics(topics);
+    console.log(`✅ Loaded ${topics.length} topics successfully`);
   }
 
   return topics;

@@ -21,6 +21,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
       
+      - name: Verify Learn topics
+        run: npx tsx scripts/verify-learn.ts
+      
       - name: Type check
         run: npm run type-check || npx tsc --noEmit
       
