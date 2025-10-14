@@ -30,9 +30,9 @@ const CALENDLY_URL = "https://calendly.com/indu/intro";
 
 const freeEmailDomains = ["gmail.com", "yahoo.com", "hotmail.com", "outlook.com"];
 
-// Formspree configuration
-const FORMSPREE_FORM_ID = import.meta.env.VITE_FORMSPREE_FORM_ID || "REPLACE_ME";
-const FORMSPREE_ENDPOINT = `https://formspree.io/f/${FORMSPREE_FORM_ID}`;
+// Web3Forms configuration
+const WEB3FORMS_ACCESS_KEY = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY || "REPLACE_ME";
+const WEB3FORMS_ENDPOINT = "https://api.web3forms.com/submit";
 
 const contactSchema = z.object({
   name: z
@@ -133,13 +133,14 @@ export const ContactForm = () => {
     setIsSubmitting(true);
 
     try {
-      // Create FormData for Formspree
+      // Create FormData for Web3Forms
       const formData = new FormData();
+      formData.append("access_key", WEB3FORMS_ACCESS_KEY);
       formData.append("name", data.name);
       formData.append("email", data.email);
-      // _replyto removed to match required fields (name, email, subject, message)
       formData.append("subject", data.subject);
       formData.append("message", data.message);
+      formData.append("company_website", data.company_website); // Honeypot
 
       // Create timeout promise (12 seconds)
       const timeoutPromise = new Promise<Response>((_, reject) =>
@@ -148,7 +149,7 @@ export const ContactForm = () => {
 
       // Race between fetch and timeout
       const response = await Promise.race([
-        fetch(FORMSPREE_ENDPOINT, {
+        fetch(WEB3FORMS_ENDPOINT, {
           method: "POST",
           headers: {
             Accept: "application/json",
@@ -161,21 +162,8 @@ export const ContactForm = () => {
       const json = await response.json().catch(() => ({}));
 
       if (!response.ok) {
-        // Handle specific error cases
-        let errorMessage = "An unexpected error occurred. Please try again.";
-        
-        if (response.status === 403) {
-          errorMessage = "Verify your Formspree endpoint by confirming the email sent to you.";
-        } else if (response.status === 422) {
-          // Validation errors from Formspree
-          errorMessage = json?.errors?.map((e: any) => e.message).join(", ") || 
-                        "Validation failed. Please check your inputs.";
-        } else if (json?.error) {
-          errorMessage = json.error;
-        } else if (json?.errors) {
-          errorMessage = json.errors.map((e: any) => e.message).join(", ");
-        }
-
+        // Handle Web3Forms error responses
+        let errorMessage = json?.message || "An unexpected error occurred. Please try again.";
         throw new Error(errorMessage);
       }
 
@@ -198,7 +186,7 @@ export const ContactForm = () => {
 
       toast({
         title: "Message sent!",
-        description: "Thanks! I'll reply soon.",
+        description: "Thanks! Your message was sent.",
       });
 
       form.reset();
@@ -223,9 +211,6 @@ export const ContactForm = () => {
         } else if (/network|failed to fetch/i.test(error.message)) {
           title = "Network issue";
           description = "Network issue, please try again.";
-        } else if (/verify|endpoint not verified|403/i.test(error.message)) {
-          title = "Action required";
-          description = "Verify your Formspree endpoint by confirming the email sent to you.";
         } else {
           description = error.message;
         }
