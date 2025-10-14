@@ -141,6 +141,10 @@ export const ContactForm = () => {
       formData.append("subject", data.subject);
       formData.append("message", data.message);
       formData.append("company_website", data.company_website); // Honeypot
+      
+      // Custom Web3Forms fields for professional emails
+      formData.append("from_name", "Indu Mallampali Website");
+      formData.append("replyto", data.email); // Reply goes to the user who submitted
 
       // Create timeout promise (12 seconds)
       const timeoutPromise = new Promise<Response>((_, reject) =>
