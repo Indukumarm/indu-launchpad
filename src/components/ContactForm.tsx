@@ -31,7 +31,7 @@ const CALENDLY_URL = "https://calendly.com/indu/intro";
 const freeEmailDomains = ["gmail.com", "yahoo.com", "hotmail.com", "outlook.com"];
 
 // Web3Forms configuration
-const WEB3FORMS_ACCESS_KEY = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY || "REPLACE_ME";
+const WEB3FORMS_ACCESS_KEY = "eaec89c0-793e-4279-8cce-3c1525bb19f4";
 const WEB3FORMS_ENDPOINT = "https://api.web3forms.com/submit";
 
 const contactSchema = z.object({
@@ -185,8 +185,8 @@ export const ContactForm = () => {
       }
 
       toast({
-        title: "Message sent!",
-        description: "Thanks! Your message was sent.",
+        title: "✅ Message sent!",
+        description: "Thanks! Your message was sent successfully.",
       });
 
       form.reset();
@@ -201,8 +201,8 @@ export const ContactForm = () => {
         timestamp: new Date().toISOString(),
       });
       
-      let title = "Submission failed";
-      let description = "An error occurred. Please try again.";
+      let title = "❌ Submission failed";
+      let description = "Something went wrong. Please try again.";
 
       if (error instanceof Error) {
         if (error.name === "AbortError") {
