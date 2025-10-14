@@ -12,6 +12,7 @@ import { Clock, ChevronLeft, ChevronRight, Share2, ExternalLink, ArrowLeft, Home
 import { toast } from "@/hooks/use-toast";
 import { getAllTopics, getTopicBySlug, type TopicFrontmatter } from "@/lib/mdx-loader";
 import { mdxComponents } from "@/components/learn/MDXComponents";
+import { TopicErrorBoundary } from "@/components/learn/TopicErrorBoundary";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -36,19 +37,25 @@ const TopicDetail = () => {
         return;
       }
 
-      const [topicModule, topics] = await Promise.all([
-        getTopicBySlug(slug),
-        getAllTopics(),
-      ]);
+      try {
+        const [topicModule, topics] = await Promise.all([
+          getTopicBySlug(slug),
+          getAllTopics(),
+        ]);
 
-      if (!topicModule) {
+        if (!topicModule) {
+          console.warn(`Topic not found: ${slug}`);
+          navigate("/learn");
+          return;
+        }
+
+        setTopic(topicModule.frontmatter);
+        setTopicContent(() => topicModule.default);
+        setAllTopics(topics);
+      } catch (error) {
+        console.error(`Failed to load topic "${slug}":`, error);
         navigate("/learn");
-        return;
       }
-
-      setTopic(topicModule.frontmatter);
-      setTopicContent(() => topicModule.default);
-      setAllTopics(topics);
     };
 
     loadTopic();
@@ -120,10 +127,11 @@ const TopicDetail = () => {
         <Header />
         <Logo3DWatermark />
 
-        <main 
-          className="container max-w-4xl mx-auto px-4 py-12 pt-[calc(var(--header-h)+1rem)] learn-article"
-          data-domain={getDomainSlug(topic.domain)}
-        >
+        <TopicErrorBoundary slug={slug}>
+          <main 
+            className="container max-w-4xl mx-auto px-4 py-12 pt-[calc(var(--header-h)+1rem)] learn-article"
+            data-domain={getDomainSlug(topic.domain)}
+          >
           {/* Breadcrumb */}
           <Breadcrumb className="mb-8">
             <BreadcrumbList>
@@ -280,6 +288,7 @@ const TopicDetail = () => {
             </div>
           </nav>
         </main>
+        </TopicErrorBoundary>
 
         <Footer />
       </div>

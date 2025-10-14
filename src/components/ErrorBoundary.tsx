@@ -22,7 +22,14 @@ export class ErrorBoundary extends Component<Props, State> {
   }
 
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    console.error("Uncaught error:", error, errorInfo);
+    // Extract topic slug from URL if we're on a learn page
+    const slug = window.location.pathname.match(/\/learn\/([^/]+)/)?.[1] || "unknown";
+    console.error(`[ErrorBoundary] Uncaught error in topic: ${slug}`, {
+      error,
+      errorInfo,
+      stack: error.stack,
+      componentStack: errorInfo.componentStack,
+    });
   }
 
   private handleReload = () => {
@@ -53,14 +60,25 @@ export class ErrorBoundary extends Component<Props, State> {
               </p>
             </div>
 
-            {process.env.NODE_ENV === "development" && this.state.error && (
-              <details className="text-left bg-muted/50 p-4 rounded-lg text-xs">
+            {import.meta.env.DEV && this.state.error && (
+              <details className="text-left bg-muted/50 p-4 rounded-lg text-xs space-y-2">
                 <summary className="cursor-pointer font-medium mb-2">
-                  Error Details
+                  Error Details (Dev Only)
                 </summary>
-                <pre className="overflow-auto text-destructive">
-                  {this.state.error.toString()}
-                </pre>
+                <div>
+                  <strong className="text-destructive">Message:</strong>
+                  <pre className="overflow-auto text-destructive mt-1">
+                    {this.state.error.toString()}
+                  </pre>
+                </div>
+                {this.state.error.stack && (
+                  <div>
+                    <strong className="text-destructive">Stack:</strong>
+                    <pre className="overflow-auto text-xs text-muted-foreground mt-1">
+                      {this.state.error.stack}
+                    </pre>
+                  </div>
+                )}
               </details>
             )}
 

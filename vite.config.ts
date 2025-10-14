@@ -40,6 +40,9 @@ export default defineConfig(({ mode }) => ({
   },
   
   build: {
+    // Enable source maps in production for better error tracking
+    sourcemap: mode === "production" ? "hidden" : true,
+    
     // Performance optimizations
     minify: "esbuild",
     esbuild: {
@@ -50,6 +53,7 @@ export default defineConfig(({ mode }) => ({
         manualChunks: {
           vendor: ["react", "react-dom", "react-router-dom"],
           ui: ["@radix-ui/react-dialog", "@radix-ui/react-dropdown-menu"],
+          mermaid: ["mermaid"],
         },
       },
     },
